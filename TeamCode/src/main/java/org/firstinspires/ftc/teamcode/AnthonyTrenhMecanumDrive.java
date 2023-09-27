@@ -65,6 +65,8 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private Servo servo = null;
 
+    boolean toggleButton = false;
+
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -99,7 +101,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             double leftBackPower;
             double rightFrontPower;
             double rightBackPower;
-            boolean button;
+            boolean holdButton;
 
             // y and x are for moving, rotate is for rotating
             double y = -gamepad1.left_stick_y;
@@ -119,14 +121,26 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             rightFrontDrive.setPower(rightFrontPower);
             rightBackDrive.setPower(rightBackPower);
 
-            // servo stuff
-            button = gamepad1.a;
-            if (button) {
+            // hold button for servo
+            holdButton = gamepad1.a;
+            if (holdButton) {
                 servo.setPosition(0.3);
             }
             else {
                 servo.setPosition(1);
             }
+
+            // toggle button for servo
+            if (gamepad1.b) {
+                toggleButton = !toggleButton;
+            }
+
+            if (toggleButton) {
+                servo.setPosition(0.3);
+            }
+            else {
+                servo.setPosition(1);
+
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
