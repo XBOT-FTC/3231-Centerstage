@@ -102,7 +102,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             double leftBackPower;
             double rightFrontPower;
             double rightBackPower;
-            boolean holdButton;
+            // boolean holdButton;
 
             // y and x are for moving, rotate is for rotating
             double y = -gamepad1.left_stick_y;
@@ -123,13 +123,14 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             rightBackDrive.setPower(rightBackPower);
 
             // hold button for servo
-            holdButton = gamepad1.a;
-            if (holdButton) {
-                servo.setPosition(0.3);
-            }
-            else {
-                servo.setPosition(1);
-            }
+            // holdButton = gamepad1.a;
+            // if (holdButton) {
+            //     servo.setPosition(0.3);
+            // }
+            // else {
+            //     servo.setPosition(1);
+            // }
+            // }
 
             // toggle button for servo
             if (gamepad1.b) {
