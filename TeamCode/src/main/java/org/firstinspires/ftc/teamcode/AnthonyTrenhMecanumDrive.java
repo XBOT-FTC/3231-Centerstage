@@ -64,9 +64,9 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
     private Servo servo = null;
+    private DcMotor linearSlide = null;
 
     boolean toggleButton = false;
-//    boolean bIsPressed = false;
     int loop;
 
     @Override
@@ -74,22 +74,24 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        // physical port on robot has set names, using "deviceName" recognizes what port the motor
-        // will be assigned to
+        // physical port on robot has set names, using "deviceName" recognizes what port the motor will be assigned to
+        // motors for wheels
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
         leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive  = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        // servo for grabber
         servo = hardwareMap.get(Servo.class, "servo");
+        // motor for linear slide
+        linearSlide = hardwareMap.get(DcMotor.class, "linear_slide");
 
-        // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
-        // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
-        // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
+        // sets directions of motors and servo
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         servo.setDirection(Servo.Direction.FORWARD);
+        linearSlide.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -98,20 +100,24 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Setup a variable for each drive wheel to save power level for telemetry
+            // setup variable for wheel motor powers
             double leftFrontPower;
             double leftBackPower;
             double rightFrontPower;
             double rightBackPower;
-            // boolean holdButton;
+
+            // setup variable for linear slide motor power
+            double linearSlidePower;
 
             // y and x are for moving, rotate is for rotating
             double y = -gamepad1.left_stick_y;
             double x = gamepad1.left_stick_x * 2;
             double rotate = gamepad1.right_stick_x;
+
             // denominator cuts down values if sum exceeds 1
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rotate), 1);
 
+            // sets powers to formula of joystick values
             leftFrontPower = (y + x + rotate) / denominator;
             leftBackPower = (y - x + rotate) / denominator;
             rightFrontPower = (y - x - rotate) / denominator;
@@ -123,42 +129,10 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             rightFrontDrive.setPower(rightFrontPower);
             rightBackDrive.setPower(rightBackPower);
 
-            // hold button for servo
-            // holdButton = gamepad1.a;
-            // if (holdButton) {
-            //     servo.setPosition(0.3);
-            // }
-            // else {
-            //     servo.setPosition(1);
-            // }
-            // }
-
-            // toggle button for servo
-//            if (gamepad1.b) {
-//                bIsPressed = true;
-//            }
-//            else {
-//                if (bIsPressed) {
-//                    toggleButton = !toggleButton;
-//                    bIsPressed = false;
-//                }
-//
-//            }
-//
-//            if (toggleButton) {
-//                servo.setPosition(1);
-//            }
-//            else {
-//                servo.setPosition(0.3);
-//            }
-
             // toggle button for servo, but it activates the moment you hit button
             if (gamepad1.b) {
                 if (loop == 0) {
                     toggleButton = !toggleButton;
-                    loop++;
-                }
-                else {
                     loop++;
                 }
             }
@@ -173,13 +147,16 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
                 servo.setPosition(0.3);
             }
 
-
+            // sets linear slide power to trigger value
+            linearSlidePower = gamepad1.right_trigger - gamepad1.left_trigger;
+            linearSlide.setPower(linearSlidePower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front Motors", "Left Front (%.2f), Right Front (%.2f)", leftFrontPower, rightFrontPower);
             telemetry.addData("Back Motors", "Left Back (%.2f), Right Back (%.2f)", leftBackPower, rightBackPower);
             telemetry.addData("Servo", "Servo (%.2f)", servo.getPosition());
+            telemetry.addData("Linear Slide", "Linear Slide Motor (%.2f)", linearSlidePower);
             telemetry.update();
         }
     }
