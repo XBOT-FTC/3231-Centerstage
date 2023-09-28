@@ -66,7 +66,8 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
     private Servo servo = null;
 
     boolean toggleButton = false;
-    boolean bIsPressed = false;
+//    boolean bIsPressed = false;
+    int loop;
 
     @Override
     public void runOpMode() {
@@ -107,7 +108,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             // y and x are for moving, rotate is for rotating
             double y = -gamepad1.left_stick_y;
             double x = gamepad1.left_stick_x * 2;
-            double rotate  =  gamepad1.right_stick_x;
+            double rotate = gamepad1.right_stick_x;
             // denominator cuts down values if sum exceeds 1
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rotate), 1);
 
@@ -133,15 +134,36 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             // }
 
             // toggle button for servo
+//            if (gamepad1.b) {
+//                bIsPressed = true;
+//            }
+//            else {
+//                if (bIsPressed) {
+//                    toggleButton = !toggleButton;
+//                    bIsPressed = false;
+//                }
+//
+//            }
+//
+//            if (toggleButton) {
+//                servo.setPosition(1);
+//            }
+//            else {
+//                servo.setPosition(0.3);
+//            }
+
+            // toggle button for servo, but it activates the moment you hit button
             if (gamepad1.b) {
-                bIsPressed = true;
+                if (loop == 0) {
+                    toggleButton = !toggleButton;
+                    loop++;
+                }
+                else {
+                    loop++;
+                }
             }
             else {
-                if (bIsPressed) {
-                    toggleButton = !toggleButton;
-                    bIsPressed = false;
-                }
-
+                loop = 0;
             }
 
             if (toggleButton) {
@@ -150,6 +172,8 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             else {
                 servo.setPosition(0.3);
             }
+
+
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
