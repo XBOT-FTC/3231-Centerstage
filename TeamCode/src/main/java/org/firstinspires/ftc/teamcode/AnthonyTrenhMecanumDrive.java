@@ -160,16 +160,16 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
 
             // linear slide add 100
             if (gamepad1.dpad_up) {
-                position += 250;
+                position += 500;
                 linearSlide.setTargetPosition(position);
                 linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                linearSlide.setPower(0.5);
+                linearSlide.setPower(1);
             }
             if (gamepad1.dpad_down && linearSlide.getCurrentPosition() > 0) {
-                position -= 250;
+                position -= 500;
                 linearSlide.setTargetPosition(position);
                 linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                linearSlide.setPower(-0.5);
+                linearSlide.setPower(1);
             }
 
             // Show the elapsed game time and wheel power.
