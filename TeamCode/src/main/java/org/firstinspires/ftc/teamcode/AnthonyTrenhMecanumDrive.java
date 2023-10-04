@@ -82,8 +82,11 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         // servo for grabber
         servo = hardwareMap.get(Servo.class, "servo");
-        // motor for linear slide
+        // motor for linear slide, sets up encoders
         linearSlide = hardwareMap.get(DcMotor.class, "linear_slide");
+        linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
+        linearSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn the motor back on when we are done
+        linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // sets directions of motors and servo
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -151,12 +154,30 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             linearSlidePower = gamepad1.right_trigger - gamepad1.left_trigger;
             linearSlide.setPower(linearSlidePower);
 
+            // gets current position of motor
+            int position = linearSlide.getCurrentPosition();
+
+            // linear slide add 100
+            if (gamepad1.dpad_up) {
+                position += 250;
+                linearSlide.setTargetPosition(position);
+                linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                linearSlide.setPower(0.5);
+            }
+            if (gamepad1.dpad_down && linearSlide.getCurrentPosition() > 0) {
+                position -= 250;
+                linearSlide.setTargetPosition(position);
+                linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                linearSlide.setPower(-0.5);
+            }
+            
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front Motors", "Left Front (%.2f), Right Front (%.2f)", leftFrontPower, rightFrontPower);
             telemetry.addData("Back Motors", "Left Back (%.2f), Right Back (%.2f)", leftBackPower, rightBackPower);
             telemetry.addData("Servo", "Servo (%.2f)", servo.getPosition());
             telemetry.addData("Linear Slide", "Linear Slide Motor (%.2f)", linearSlidePower);
+            telemetry.addData("Encoder Position", position);
             telemetry.update();
         }
     }
