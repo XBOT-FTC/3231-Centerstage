@@ -68,6 +68,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
 
     boolean toggleButton = false;
     int loop;
+    public int maxPosition = 100000;
 
     @Override
     public void runOpMode() {
@@ -85,7 +86,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
         // motor for linear slide, sets up encoders
         linearSlide = hardwareMap.get(DcMotor.class, "linear_slide");
         linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
-        linearSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn the motor back on when we are done
+        linearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // Turn the motor back on when we are done
         linearSlide.setTargetPosition(0);
         linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -159,17 +160,23 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             int position = linearSlide.getCurrentPosition();
 
             // linear slide add 100
-            if (gamepad1.dpad_up) {
-                position += 500;
+            if (gamepad1.dpad_up && position < maxPosition) {
+                position += 250;
+                if (position > maxPosition) {
+                    position = maxPosition;
+                }
                 linearSlide.setTargetPosition(position);
                 linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 linearSlide.setPower(1);
             }
-            if (gamepad1.dpad_down && linearSlide.getCurrentPosition() > 0) {
-                position -= 500;
+            else if (gamepad1.dpad_down && position > 0) {
+                position -= 250;
+                if (position < 0) {
+                    position = 0;
+                }
                 linearSlide.setTargetPosition(position);
                 linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                linearSlide.setPower(1);
+                linearSlide.setPower(-1);
             }
 
             // Show the elapsed game time and wheel power.
