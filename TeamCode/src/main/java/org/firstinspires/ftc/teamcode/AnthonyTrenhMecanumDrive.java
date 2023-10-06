@@ -185,7 +185,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             telemetry.addData("Front Motors", "Left Front (%.2f), Right Front (%.2f)", leftFrontPower, rightFrontPower);
             telemetry.addData("Back Motors", "Left Back (%.2f), Right Back (%.2f)", leftBackPower, rightBackPower);
             telemetry.addData("Servo", "Servo (%.2f)", servo.getPosition());
-            telemetry.addData("Linear Slide", "Linear Slide Motor (%.2f)", linearSlidePower);
+//            telemetry.addData("Linear Slide", "Linear Slide Motor (%.2f)", linearSlidePower);
             telemetry.addData("Encoder Position", position);
             telemetry.update();
         }
