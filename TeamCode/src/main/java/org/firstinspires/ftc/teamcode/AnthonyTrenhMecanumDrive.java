@@ -112,7 +112,6 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             double rightBackPower;
 
             // setup variable for linear slide motor power
-            double linearSlidePower;
 
             // y and x are for moving, rotate is for rotating
             double y = -gamepad1.left_stick_y;
@@ -135,7 +134,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             rightBackDrive.setPower(rightBackPower);
 
             // toggle button for servo, but it activates the moment you hit button
-            if (gamepad1.b) {
+            if (gamepad1.x) {
                 if (loop == 0) {
                     toggleButton = !toggleButton;
                     loop++;
@@ -152,15 +151,12 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
                 servo.setPosition(0.3);
             }
 
-//            // sets linear slide power to trigger value
-//            linearSlidePower = gamepad1.right_trigger - gamepad1.left_trigger;
-//            linearSlide.setPower(linearSlidePower);
 
 
             // gets current position of motor
             int position = linearSlide.getCurrentPosition();
 
-            // linear slide add 100
+            // linear slide add 250 with dpad
             if (gamepad1.dpad_up && position < maxPosition) {
                 position += 250;
                 if (position > maxPosition) {
@@ -179,6 +175,30 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
                 linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 linearSlide.setPower(-1);
             }
+
+            // figure out what pole position to go to
+            if (gamepad1.a || gamepad1.b || gamepad1.y) {
+                linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                if (gamepad1.a) {
+                    position = 2500;
+                }
+                else if (gamepad1.b) {
+                    position = 3500;
+                }
+                else if (gamepad1.y) {
+                    position = 6500;
+                }
+            }
+
+            if (linearSlide.getCurrentPosition() < position) {
+                linearSlide.setTargetPosition(position);
+                linearSlide.setPower(0.6);
+            }
+            else if (linearSlide.getCurrentPosition() > position) {
+                linearSlide.setTargetPosition(position);
+                linearSlide.setPower(-0.6);
+            }
+
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
