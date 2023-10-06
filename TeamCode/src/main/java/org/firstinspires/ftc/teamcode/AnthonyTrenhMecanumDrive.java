@@ -91,10 +91,10 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
         linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // sets directions of motors and servo
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         servo.setDirection(Servo.Direction.FORWARD);
         linearSlide.setDirection(DcMotor.Direction.REVERSE);
 
@@ -152,16 +152,17 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
                 servo.setPosition(0.3);
             }
 
-            // sets linear slide power to trigger value
-            linearSlidePower = gamepad1.right_trigger - gamepad1.left_trigger;
-            linearSlide.setPower(linearSlidePower);
+//            // sets linear slide power to trigger value
+//            linearSlidePower = gamepad1.right_trigger - gamepad1.left_trigger;
+//            linearSlide.setPower(linearSlidePower);
+
 
             // gets current position of motor
             int position = linearSlide.getCurrentPosition();
 
             // linear slide add 100
             if (gamepad1.dpad_up && position < maxPosition) {
-                position += 250;
+                position += 1000;
                 if (position > maxPosition) {
                     position = maxPosition;
                 }
@@ -170,7 +171,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
                 linearSlide.setPower(1);
             }
             else if (gamepad1.dpad_down && position > 0) {
-                position -= 250;
+                position -= 1000;
                 if (position < 0) {
                     position = 0;
                 }
