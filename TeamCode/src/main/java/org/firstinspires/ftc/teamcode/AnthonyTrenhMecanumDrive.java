@@ -68,7 +68,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
 
     boolean toggleButton = false;
     int loop;
-    public int maxPosition = 100000;
+    public int maxPosition = 2350;
 
     @Override
     public void runOpMode() {
@@ -158,7 +158,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
 
             // linear slide add 250 with dpad
             if (gamepad1.dpad_up && position < maxPosition) {
-                position += 250;
+                position += 230;
                 if (position > maxPosition) {
                     position = maxPosition;
                 }
@@ -167,7 +167,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
                 linearSlide.setPower(1);
             }
             else if (gamepad1.dpad_down && position > 0) {
-                position -= 250;
+                position -= 230;
                 if (position < 0) {
                     position = 0;
                 }
@@ -179,25 +179,25 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             if (gamepad1.a || gamepad1.b || gamepad1.y) {
                 // figure out what pole position to go to
                 if (gamepad1.a) {
-                    position = 2500;
+                    position = 1000;
                 }
                 else if (gamepad1.b) {
-                    position = 3500;
+                    position = 1675;
                 }
                 else if (gamepad1.y) {
-                    position = 6500;
+                    position = 2350;
                 }
 
                 // go to pole
                 if (linearSlide.getCurrentPosition() < position) {
                     linearSlide.setTargetPosition(position);
                     linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    linearSlide.setPower(0.6);
+                    linearSlide.setPower(0.7);
                 }
                 else if (linearSlide.getCurrentPosition() > position) {
                     linearSlide.setTargetPosition(position);
                     linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    linearSlide.setPower(-0.6);
+                    linearSlide.setPower(-0.7);
                 }
             }
 
