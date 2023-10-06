@@ -162,7 +162,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
 
             // linear slide add 100
             if (gamepad1.dpad_up && position < maxPosition) {
-                position += 1000;
+                position += 250;
                 if (position > maxPosition) {
                     position = maxPosition;
                 }
@@ -171,7 +171,7 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
                 linearSlide.setPower(1);
             }
             else if (gamepad1.dpad_down && position > 0) {
-                position -= 1000;
+                position -= 250;
                 if (position < 0) {
                     position = 0;
                 }
