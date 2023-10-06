@@ -176,9 +176,8 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
                 linearSlide.setPower(-1);
             }
 
-            // figure out what pole position to go to
             if (gamepad1.a || gamepad1.b || gamepad1.y) {
-                linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                // figure out what pole position to go to
                 if (gamepad1.a) {
                     position = 2500;
                 }
@@ -188,15 +187,18 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
                 else if (gamepad1.y) {
                     position = 6500;
                 }
-            }
 
-            if (linearSlide.getCurrentPosition() < position) {
-                linearSlide.setTargetPosition(position);
-                linearSlide.setPower(0.6);
-            }
-            else if (linearSlide.getCurrentPosition() > position) {
-                linearSlide.setTargetPosition(position);
-                linearSlide.setPower(-0.6);
+                // go to pole
+                if (linearSlide.getCurrentPosition() < position) {
+                    linearSlide.setTargetPosition(position);
+                    linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    linearSlide.setPower(0.6);
+                }
+                else if (linearSlide.getCurrentPosition() > position) {
+                    linearSlide.setTargetPosition(position);
+                    linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    linearSlide.setPower(-0.6);
+                }
             }
 
 
@@ -205,7 +207,6 @@ public class AnthonyTrenhMecanumDrive extends LinearOpMode {
             telemetry.addData("Front Motors", "Left Front (%.2f), Right Front (%.2f)", leftFrontPower, rightFrontPower);
             telemetry.addData("Back Motors", "Left Back (%.2f), Right Back (%.2f)", leftBackPower, rightBackPower);
             telemetry.addData("Servo", "Servo (%.2f)", servo.getPosition());
-//            telemetry.addData("Linear Slide", "Linear Slide Motor (%.2f)", linearSlidePower);
             telemetry.addData("Encoder Position", position);
             telemetry.update();
         }
