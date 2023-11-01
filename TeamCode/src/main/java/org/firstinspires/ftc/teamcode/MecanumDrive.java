@@ -194,6 +194,32 @@ public class MecanumDrive {
         }
     }
 
+    public void turnMovement(String turnWay, int turnTicks, Telemetry telemetry) {
+        if (turnWay.equals("LEFT")) {
+            setTargetPosition(frontLeft.getCurrentPosition() - turnTicks, frontRight.getCurrentPosition() + turnTicks, backLeft.getCurrentPosition() - turnTicks, backRight.getCurrentPosition() + turnTicks);
+            setRealSpeed();
+            runToPosition();
+            turnLeftTelemetry(telemetry);
+        } else if (turnWay.equals("RIGHT")) {
+            setTargetPosition(frontLeft.getCurrentPosition() + turnTicks, frontRight.getCurrentPosition() - turnTicks, backLeft.getCurrentPosition() + turnTicks, backRight.getCurrentPosition() - turnTicks);
+            setRealSpeed();
+            runToPosition();
+            turnRightTelemetry(telemetry);
+        }
+    }
+
+    public void turnLeftTelemetry(Telemetry telemetry) {
+        while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+            telemetry.addLine("Motors are currently turning left");
+        }
+    }
+
+    public void turnRightTelemetry(Telemetry telemetry) {
+        while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+            telemetry.addLine("Motors are currently turning right");
+        }
+    }
+
     public void setTargetPosition(int flTicks, int frTicks, int blTicks, int brTicks) {
         frontLeft.setTargetPosition(flTicks);
         frontRight.setTargetPosition(frTicks);
