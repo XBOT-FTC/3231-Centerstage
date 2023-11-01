@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
@@ -13,7 +12,7 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 
-public class SamplePipeLine implements VisionProcessor {
+public class ThreeRectangleProcessor implements VisionProcessor {
     public Rect rectLeft = new Rect(150, 220, 65, 65);
     public Rect rectMiddle = new Rect(280, 220, 65, 65);
     public Rect rectRight = new Rect(410, 220, 65, 65);
