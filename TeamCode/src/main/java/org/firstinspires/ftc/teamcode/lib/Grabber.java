@@ -52,7 +52,7 @@ public class Grabber {
 //            servo.setPosition(position);
 //        }
 //        servo.setPosition(position);
-        telemetry.addData("toogleButton", toggleButton);
+        telemetry.addData("toggleButton", toggleButton);
         telemetry.addData("Servo", "Servo (%.2f)", servo.getPosition());
     }
 

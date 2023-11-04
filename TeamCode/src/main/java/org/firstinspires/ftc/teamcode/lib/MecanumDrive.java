@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
    DPAD UP: INCREMENT SPEED PERCENTAGE
    DPAD DOWN: DECREMENT SPEED PERCENTAGE
    A: PRECISION MODE
+   Y: FULL POWER MODE
  */
 public class MecanumDrive {
 
@@ -22,13 +23,15 @@ public class MecanumDrive {
     private DcMotor rightBackDrive = null;
     public double speedModeLimiter = 0;
     public boolean precisionMode = false;
-    private double speedChange;
+    private double speedChange = 0.0;
     private int count = 0;
     private int precisionLoop = 0;
     private int speedChangeLoop = 0;
     private double speedDecrement = 0;
-    public double rotatePower;
-
+    public double rotatePower = 0.0;
+    public double defaultPowerPercentage = 0.0;
+    private int fullSpeedLoop = 0;
+    private boolean fullSpeedMode = false;
     public MecanumDrive(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "lf_drive");
         leftBackDrive = hardwareMap.get(DcMotor.class, "lb_drive");
@@ -54,10 +57,10 @@ public class MecanumDrive {
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rotate), 1);
 
         // sets powers to formula of joystick values
-        double leftFrontPower = (y + x + rotate) / denominator;
-        double leftBackPower = (y - x + rotate) / denominator;
-        double rightFrontPower = (y - x - rotate) / denominator;
-        double rightBackPower = (y + x - rotate) / denominator;
+        double leftFrontPower = ((y + x + rotate) / denominator) * defaultPowerPercentage;
+        double leftBackPower = ((y - x + rotate) / denominator) * defaultPowerPercentage;
+        double rightFrontPower = ((y - x - rotate) / denominator) * defaultPowerPercentage;
+        double rightBackPower = ((y + x - rotate) / denominator) * defaultPowerPercentage;
 
         // decrement or increment speed percentage
         speedChange(gamepad);
@@ -86,6 +89,7 @@ public class MecanumDrive {
         telemetry.addData("Back Motors", "Left Back (%.2f), Right Back (%.2f)", leftBackPower, rightBackPower);
         telemetry.addData("Drive Precision Mode Status", precisionMode);
         telemetry.addData("Speed Change", speedChange);
+        telemetry.addData("Default Speed Percentage", defaultPowerPercentage);
 //        encoderPositionsTelemetry(telemetry);
     }
 
@@ -119,6 +123,18 @@ public class MecanumDrive {
         }
         else {
             precisionLoop = 0;
+        }
+    }
+
+    public void fullPowerSwitch(Gamepad gamepad) {
+        if (gamepad.y) {
+            if (fullSpeedLoop == 0) {
+                fullSpeedMode = !fullSpeedMode;
+                fullSpeedLoop++;
+            }
+        }
+        else {
+            fullSpeedLoop = 0;
         }
     }
 
@@ -180,6 +196,10 @@ public class MecanumDrive {
 
     public void setRotatePower(double power) {
         rotatePower = power;
+    }
+
+    public void setDefaultPowerPercentage(double percentage) {
+        defaultPowerPercentage = percentage;
     }
 
 }

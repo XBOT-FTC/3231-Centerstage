@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
    DPAD UP: LINEAR SLIDE UP
    DPAD DOWN: LINEAR SLIDE DOWN
    A: PRECISION MODE
+   Y: SCORING POSITION
 */
 public class LinearSlide {
 
@@ -23,6 +24,15 @@ public class LinearSlide {
     public boolean precisionMode = false;
     public int precisionLoop = 0;
     private double speedModeLimiter = 0;
+    public int scoringLoop = 0;
+    public boolean scoringBool = false;
+    public int scoringPosition = 0;
+    public int position = 0;
+    public double tempPower = 0;
+    public int zeroLoop = 0;
+    public double defaultPowerPercentage = 0.0;
+    public int positionLoop = 0;
+
 
 
     public LinearSlide(HardwareMap hardwareMap, DcMotorSimple.Direction direction) {
@@ -48,30 +58,60 @@ public class LinearSlide {
     }
 
     private void slideDPad(Gamepad gamepad, Telemetry telemetry) {
-        int position = linearSlideLeft.getCurrentPosition();
 
-        // linear slide add 250 with dpad
-        if (gamepad.dpad_up && position < maxPosition) {
-            position += tickChange;
-            if (position > maxPosition) {
-                position = maxPosition;
-            }
-        }
-        else if (gamepad.dpad_down && position > 0) {
-            position -= tickChange;
-            if (position < 0) {
-                position = 0;
-            }
-        }
+//        if (positionLoop > 0) {
+            // linear slide add 250 with dpad
+//            if (gamepad.dpad_up && position < maxPosition) {
+//                position += tickChange;
+//                if (position > maxPosition) {
+//                    position = maxPosition;
+//                }
+//            }
+//            else if (gamepad.dpad_down && position > 0) {
+//                position -= tickChange;
+//                if (position < 0) {
+//                    position = 0;
+//                }
+//            }
+//        }
 
         precisionModeSwitch(gamepad);
+        scoringPosition(gamepad);
+        if (scoringBool) {
+//            if (positionLoop == 0) {
+                position = scoringPosition;
+//                positionLoop++;
+//            }
+            power = tempPower;
+            zeroLoop = 0;
+        }
+        else {
+//            positionLoop = 0;
+            backToZero();
+        }
 
         linearSlideLeft.setTargetPosition(position);
         linearSlideRight.setTargetPosition(position);
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearSlideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if (linearSlideLeft.getCurrentPosition() < position) {
+//        power *= defaultPowerPercentage;
+
+        // TODO: need to be reviewed.
+        // logic for toggle on-off of the linear slide to go back to zero.
+        if (position == 0 && !scoringBool) {
+            if (linearSlideLeft.getCurrentPosition() != 0) {
+                // set power to get back to zero
+                linearSlideLeft.setPower(power);
+                linearSlideRight.setPower(power);
+            } else {
+                // if we're at zero, set power to zero to not stall the motors.
+                linearSlideLeft.setPower(0.0);
+                linearSlideRight.setPower(0.0);
+            }
+
+        }
+        else if (linearSlideLeft.getCurrentPosition() < position) {
             if (precisionMode) {
                 linearSlideLeft.setPower(power *= speedModeLimiter);
                 linearSlideRight.setPower(power *= speedModeLimiter);
@@ -98,6 +138,9 @@ public class LinearSlide {
         telemetry.addData("Current Right Slide Position", currentPositionRight);
         telemetry.addData("Slide Goal Position", position);
         telemetry.addData("Slide Precision Mode Status", precisionMode);
+        telemetry.addData("Linear Slide Power", power);
+        telemetry.addData("Linear Slide Temp Power", tempPower);
+        telemetry.addData("Scoring Position Boolean", scoringBool);
     }
 
 
@@ -114,6 +157,29 @@ public class LinearSlide {
         }
     }
 
+    public void scoringPosition(Gamepad gamepad) {
+        if (gamepad.y) {
+            if (scoringLoop == 0) {
+                scoringBool = !scoringBool;
+                scoringLoop++;
+            }
+        }
+        else {
+            scoringLoop = 0;
+        }
+    }
+
+    public void backToZero() {
+        position = 0;
+        if (zeroLoop == 0) {
+            tempPower = power;
+        }
+        if (linearSlideLeft.getCurrentPosition() == 0) {
+            power = 0;
+        }
+        zeroLoop++;
+    }
+
     public void setSlidePower(double power) {
         this.power = power;
     }
@@ -128,5 +194,12 @@ public class LinearSlide {
 
     public void setSpeedModeLimiter(double speedModeLimiter) {
         this.speedModeLimiter = speedModeLimiter;
+    }
+    public void setScoringPosition(int position) {
+        scoringPosition = position;
+    }
+
+    public void setDefaultPowerPercentage(double percentage) {
+        defaultPowerPercentage = percentage;
     }
 }
