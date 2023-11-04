@@ -28,18 +28,21 @@ public class DaiLo extends LinearOpMode {
         drive.setSpeedModeLimiter(0.25);
         drive.setSpeedDecrement(0.2);
         drive.setRotatePower(0.3);
+        drive.setDefaultPowerPercentage(0.5);
 
         // linear slide
         linearSlide.setSlidePower(1);
         linearSlide.setMaxPosition(2850);
         linearSlide.setTickChange(90);
         linearSlide.setSpeedModeLimiter(0.25);
+        linearSlide.setScoringPosition(1580);
 
         // swivel
         swivel.setSwivelPower(0.5);
         swivel.setMaxPosition(600);
         swivel.setTickChange(10);
         swivel.setSpeedModeLimiter(0.25);
+        swivel.setScoringPosition(360);
 
         // grabber
         grabber.setOpenPosition(0.33);
