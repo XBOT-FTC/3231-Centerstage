@@ -180,8 +180,8 @@ public class MecanumDrive {
     }
 
     public void setPowers(double power) {
-        leftFrontDrive.setPower(-power);
-        leftBackDrive.setPower(-power);
+        leftFrontDrive.setPower(power);
+        leftBackDrive.setPower(power);
         rightFrontDrive.setPower(power);
         rightBackDrive.setPower(power);
     }
