@@ -21,6 +21,13 @@ android {
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
+    sourceSets {
+        main {
+            java {
+                srcDirs 'src/main/java', 'src/main/java/2', 'src/main/java/TeleOp', 'src/main/java/org.firstinspired.ftc.teamcode/TeleOp'
+            }
+        }
+    }
 }
 
 dependencies {
