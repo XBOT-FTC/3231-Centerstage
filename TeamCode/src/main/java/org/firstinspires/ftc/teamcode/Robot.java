@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.internal.camera.libuvc.nativeobject.LibUs
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Grabber;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.DroneShooter;
 
 @TeleOp(name="MD: Robot", group="Linear Opmode")
 public class Robot extends LinearOpMode {
@@ -27,6 +28,8 @@ public class Robot extends LinearOpMode {
         //GRABBER SETUPS
         Grabber grabber = new Grabber(hardwareMap);
         grabber.setPosition(0.0, 0.7);
+
+        DroneShooter droneShooter = new DroneShooter(hardwareMap, Servo.Direction.FORWARD, 0.1, 0.1);
 
         //LINEAR SLIDE SETUPS
 //        LinearSlide linearSlide = new LinearSlide(hardwareMap);
@@ -51,6 +54,7 @@ public class Robot extends LinearOpMode {
         while(opModeIsActive()) {
             drive.drive(gamepad1, telemetry);
             grabber.grab(gamepad1, telemetry);
+            droneShooter.shootingControls(gamepad1, telemetry);
 //            linearSlide.slide(gamepad1, telemetry);
             telemetry.update();
         }
