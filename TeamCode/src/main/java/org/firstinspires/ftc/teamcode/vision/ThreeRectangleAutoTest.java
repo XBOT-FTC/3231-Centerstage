@@ -3,21 +3,22 @@ package org.firstinspires.ftc.teamcode.vision;
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 
+@TeleOp(name = "Three Rectangle Auto Test", group="Test")
 public class ThreeRectangleAutoTest extends LinearOpMode {
 
     VisionPortal myVisionPortal;
     ThreeRectangleProcessor threeRectangleProcessor;
 
-
     @Override
     public void runOpMode() throws InterruptedException {
+        threeRectangleProcessor = new ThreeRectangleProcessor();
 
         VisionPortal.Builder myVisionPortalBuilder;
-        VisionPortal myVisionPortal;
 
         // Create a new VisionPortal Builder object.
         myVisionPortalBuilder = new VisionPortal.Builder();
@@ -55,6 +56,5 @@ public class ThreeRectangleAutoTest extends LinearOpMode {
             telemetry.addLine("Not Found");
         }
             telemetry.update();
-
     }
 }
