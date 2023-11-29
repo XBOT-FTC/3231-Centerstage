@@ -31,18 +31,19 @@ public class MecanumDrive {
     private double minSpeed = 0.25;
     private double goalUpSpeed;
     private double goalDownSpeed;
+    private double ticksPerInch;
 
     public MecanumDrive(HardwareMap hardwareMap) throws InterruptedException {
 
-        frontLeft = hardwareMap.get(DcMotor.class, "front_left");
-        frontRight = hardwareMap.get(DcMotor.class, "front_right");
-        backLeft = hardwareMap.get(DcMotor.class, "back_left");
-        backRight = hardwareMap.get(DcMotor.class, "back_right");
+        frontLeft = hardwareMap.get(DcMotor.class, "lf_drive");
+        frontRight = hardwareMap.get(DcMotor.class, "rf_drive");
+        backLeft = hardwareMap.get(DcMotor.class, "lb_drive");
+        backRight = hardwareMap.get(DcMotor.class, "rb_drive");
 
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
     }
 
     public void drive(Gamepad gamepad, Telemetry telemetry) {
@@ -57,7 +58,7 @@ public class MecanumDrive {
         // - This uses basic math to combine motions and is easier to drive straight.
         double y = -gamepad.left_stick_y;
         double x = gamepad.left_stick_x;
-        double rx = gamepad.right_stick_x;
+        double rx = -gamepad.right_stick_x;
 
         frontLeftPower = y + x + rx;
         frontRightPower = y - x - rx;
@@ -78,10 +79,6 @@ public class MecanumDrive {
             }
         }
 
-        frontLeftPower = defaultSpeed;
-        frontRightPower = defaultSpeed;
-        backLeftPower = defaultSpeed;
-        backRightPower = defaultSpeed;
 
         frontLeft.setPower(frontLeftPower);
         frontRight.setPower(frontRightPower);
@@ -89,21 +86,23 @@ public class MecanumDrive {
         backRight.setPower(backRightPower);
 
 
-        if (gamepad.y) {
-            verticalMovement(1000, telemetry);
-        }
 
-        if (gamepad.a) {
-            verticalMovement(-1000, telemetry);
-        }
+//        if (gamepad.y) {
+//            verticalMovement(1000, 1.0, telemetry);
+//        }
+//
+//        if (gamepad.a) {
+//            verticalMovement(-1000, 1.0, telemetry);
+//        }
+//
+//        if (gamepad.x) {
+//            horizontalMovement("LEFT", 1000, telemetry, 1.0);
+//        }
+//
+//        if (gamepad.b) {
+//            horizontalMovement("RIGHT", 1000, telemetry, 1.0);
+//        }
 
-        if (gamepad.x) {
-            horizontalMovement("LEFT", 1000, telemetry);
-        }
-
-        if (gamepad.b) {
-            horizontalMovement("RIGHT", 1000, telemetry);
-        }
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -138,7 +137,7 @@ public class MecanumDrive {
 //            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + ticks);
 //            frontRight.setTargetPosition(frontRight.getCurrentPosition() - ticks);
 //            backLeft.setTargetPosition(backLeft.getCurrentPosition() - ticks);
-//            backRight.setTargetPosition(backRight.getCurrentPosition() + ticks);
+//            backRight.setTargetPosition(backRight.get CurrentPosition() + ticks);
 //
 //        //TURN RIGHT
 //        } else if (command.equals("TURN-RIGHT")) {
@@ -173,36 +172,36 @@ public class MecanumDrive {
 //        }
 //    }
 
-    public void verticalMovement(int verticalTicks, Telemetry telemetry) {
+    public void verticalMovement(int verticalTicks, double speed, Telemetry telemetry) {
         setTargetPosition(frontLeft.getCurrentPosition() + verticalTicks, frontRight.getCurrentPosition() + verticalTicks, backLeft.getCurrentPosition() + verticalTicks, backRight.getCurrentPosition() + verticalTicks);
-        setRealSpeed();
+        setRealSpeed(speed);
         runToPosition();
         setVerticalTelemetry(telemetry);
     }
 
-    public void horizontalMovement(String way, int horizontalTicks, Telemetry telemetry) {
+    public void horizontalMovement(String way, int horizontalTicks, Telemetry telemetry, double speed) {
         if (way.equals("LEFT")) {
             setTargetPosition(frontLeft.getCurrentPosition() - horizontalTicks, frontRight.getCurrentPosition() + horizontalTicks, backLeft.getCurrentPosition() + horizontalTicks, backRight.getCurrentPosition() - horizontalTicks);
-            setRealSpeed();
+            setRealSpeed(speed);
             runToPosition();
             setStrafeLeftTelemetry(telemetry);
         } else if (way.equals("RIGHT")) {
             setTargetPosition(frontLeft.getCurrentPosition() + horizontalTicks, frontRight.getCurrentPosition() - horizontalTicks, backLeft.getCurrentPosition() - horizontalTicks, backRight.getCurrentPosition() + horizontalTicks);
-            setRealSpeed();
+            setRealSpeed(speed);
             runToPosition();
             setStrafeRightTelemetry(telemetry);
         }
     }
 
-    public void turnMovement(String turnWay, int turnTicks, Telemetry telemetry) {
+    public void turnMovement(String turnWay, int turnTicks, Telemetry telemetry, double speed) {
         if (turnWay.equals("LEFT")) {
             setTargetPosition(frontLeft.getCurrentPosition() - turnTicks, frontRight.getCurrentPosition() + turnTicks, backLeft.getCurrentPosition() - turnTicks, backRight.getCurrentPosition() + turnTicks);
-            setRealSpeed();
+            setRealSpeed(speed);
             runToPosition();
             turnLeftTelemetry(telemetry);
         } else if (turnWay.equals("RIGHT")) {
             setTargetPosition(frontLeft.getCurrentPosition() + turnTicks, frontRight.getCurrentPosition() - turnTicks, backLeft.getCurrentPosition() + turnTicks, backRight.getCurrentPosition() - turnTicks);
-            setRealSpeed();
+            setRealSpeed(speed);
             runToPosition();
             turnRightTelemetry(telemetry);
         }
@@ -227,11 +226,11 @@ public class MecanumDrive {
         backRight.setTargetPosition(brTicks);
     }
 
-    public void setRealSpeed() {
-        frontLeft.setPower(frontLeftPower);
-        frontRight.setPower(frontRightPower);
-        backLeft.setPower(backLeftPower);
-        backRight.setPower(backRightPower);
+    public void setRealSpeed(double speed) {
+        frontLeft.setPower(speed);
+        frontRight.setPower(speed);
+        backLeft.setPower(speed);
+        backRight.setPower(speed);
     }
 
     public void runToPosition() {

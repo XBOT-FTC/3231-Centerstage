@@ -29,27 +29,29 @@ public class Robot extends LinearOpMode {
         grabber.setPosition(0.0, 0.7);
 
         //LINEAR SLIDE SETUPS
-        LinearSlide linearSlide = new LinearSlide(hardwareMap);
-        linearSlide.setMaxPosition(6400);
-        linearSlide.setMinPosition(0);
-        linearSlide.setUpTicks(150);
-        linearSlide.setDownTicks(150);
-        linearSlide.setLinearPower(0.6);
+//        LinearSlide linearSlide = new LinearSlide(hardwareMap);
+//        linearSlide.setMaxPosition(6400);
+//        linearSlide.setMinPosition(0);
+//        linearSlide.setUpTicks(150);
+//        linearSlide.setDownTicks(150);
+//        linearSlide.setLinearPower(0.6);
 
         //HANGER SETUPS
-        Hanger hanger = new Hanger(hardwareMap);
-        hanger.setMaxPosition(6400);
-        hanger.setMinPosition(0);
-        hanger.setUpTicks(250);
-        hanger.setDownTicks(200);
-        hanger.setHangerPower(1.0);
+//        Hanger hanger = new Hanger(hardwareMap);
+//        hanger.setMaxPosition(6400);
+//        hanger.setMinPosition(0);
+//        hanger.setUpTicks(250);
+//        hanger.setDownTicks(200);
+//        hanger.setHangerPower(1.0);
 
 //      drive.determineCommand("FORWARD", 1.0, 600, telemetry);
+
+        waitForStart();
 
         while(opModeIsActive()) {
             drive.drive(gamepad1, telemetry);
             grabber.grab(gamepad1, telemetry);
-            linearSlide.slide(gamepad1, telemetry);
+//            linearSlide.slide(gamepad1, telemetry);
             telemetry.update();
         }
     }

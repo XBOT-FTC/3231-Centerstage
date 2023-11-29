@@ -14,11 +14,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LinearSlide {
     private DcMotor linearSlide = null;
-    private DcMotor linearSlide1 = null;
     private int upTicks;
     private int downTicks;
     private int currentFirstPosition;
-    private int currentSecondPosition;
+
     private int maxPosition;
     private int minPosition;
     private int goalUpPosition;
@@ -31,12 +30,8 @@ public class LinearSlide {
         linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        linearSlide1 = hardwareMap.get(DcMotor.class, "linearslide1");
-        linearSlide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearSlide1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         linearSlide.setTargetPosition(0);
-        linearSlide1.setTargetPosition(0);
+
     }
 
     public void slide(Gamepad gamepad, Telemetry telemetry) {
@@ -45,7 +40,7 @@ public class LinearSlide {
 
     public void slideTrigger(Gamepad gamepad, Telemetry telemetry) {
         currentFirstPosition = linearSlide.getCurrentPosition();
-        currentSecondPosition = linearSlide1.getCurrentPosition();
+
 
         if (gamepad.right_bumper) {
             goalUpPosition = currentFirstPosition + upTicks;
@@ -57,9 +52,6 @@ public class LinearSlide {
                 linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 linearSlide.setPower(linearPower);
 
-                linearSlide1.setTargetPosition(goalUpPosition);
-                linearSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                linearSlide1.setPower(linearPower);
 
         }
         if (gamepad.left_bumper) {
@@ -70,10 +62,6 @@ public class LinearSlide {
             linearSlide.setTargetPosition(goalDownPosition);
             linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             linearSlide.setPower(-linearPower);
-
-            linearSlide1.setTargetPosition(goalUpPosition);
-            linearSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            linearSlide1.setPower(-linearPower);
 
         }
         updatedFirstPosition = linearSlide.getCurrentPosition();
