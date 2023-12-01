@@ -13,9 +13,16 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 
 public class ThreeRectangleProcessor implements VisionProcessor {
-    public Rect rectLeft = new Rect(150, 220, 65, 65);
-    public Rect rectMiddle = new Rect(280, 220, 65, 65);
-    public Rect rectRight = new Rect(410, 220, 65, 65);
+
+
+    public Rect rectLeft = new Rect(0, 220, 200, 200);
+    public Rect rectMiddle = new Rect(540, 100, 200, 200);
+    public Rect rectRight = new Rect(1075, 220, 200, 200);
+
+// this is for when the resolution is 1280 1024
+//    public Rect rectLeft = new Rect(0, 220, 200, 200);
+//    public Rect rectMiddle = new Rect(540, 100, 200, 200);
+//    public Rect rectRight = new Rect(1075, 220, 200, 200);
     Selected selection = Selected.NONE;
 
     Mat submat = new Mat ();
