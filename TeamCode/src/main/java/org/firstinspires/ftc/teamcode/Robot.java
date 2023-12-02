@@ -27,9 +27,9 @@ public class Robot extends LinearOpMode {
 
         //GRABBER SETUPS
         Grabber grabber = new Grabber(hardwareMap);
-        grabber.setPosition(0.0, 0.7);
+        grabber.setGrabPosition(0.0, 1.0);
 
-        DroneShooter droneShooter = new DroneShooter(hardwareMap, Servo.Direction.FORWARD, 0.1, 0.1);
+        DroneShooter droneShooter = new DroneShooter(hardwareMap, Servo.Direction.FORWARD, 0.1, 0.7);
 
         //LINEAR SLIDE SETUPS
 //        LinearSlide linearSlide = new LinearSlide(hardwareMap);
@@ -40,22 +40,28 @@ public class Robot extends LinearOpMode {
 //        linearSlide.setLinearPower(0.6);
 
         //HANGER SETUPS
-//        Hanger hanger = new Hanger(hardwareMap);
-//        hanger.setMaxPosition(6400);
-//        hanger.setMinPosition(0);
-//        hanger.setUpTicks(250);
-//        hanger.setDownTicks(200);
-//        hanger.setHangerPower(1.0);
+        Hanger hanger = new Hanger(hardwareMap);
+        //(537.7 pulses per rotation) * (163.5 mm travel distance) / (8 mm per rotation)
+        hanger.setMaxPosition(10000);
+        hanger.setMinPosition(0);
+        hanger.setUpTicks(540);
+        hanger.setDownTicks(540);
+        hanger.setHangerPower(1.0);
 
-//      drive.determineCommand("FORWARD", 1.0, 600, telemetry);
+        // INTAKER SETUPS
+        Intaker intaker = new Intaker(hardwareMap);
+        intaker.setSpinPower(1.0);
+        intaker.setStopPower(0.0);
+
 
         waitForStart();
 
         while(opModeIsActive()) {
             drive.drive(gamepad1, telemetry);
-            grabber.grab(gamepad1, telemetry);
-            droneShooter.shootingControls(gamepad1, telemetry);
-//            linearSlide.slide(gamepad1, telemetry);
+            grabber.grab(gamepad2, telemetry);
+            intaker.moveIntake(gamepad2, telemetry);
+            droneShooter.shootingControls(gamepad2, telemetry);
+            hanger.moveHanger(gamepad2, telemetry);
             telemetry.update();
         }
     }

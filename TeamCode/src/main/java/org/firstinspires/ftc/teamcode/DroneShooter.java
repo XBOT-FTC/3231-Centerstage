@@ -35,21 +35,21 @@ public class DroneShooter {
         // fine tuning:
         if (gamepad.dpad_up) {
             if (shootingOn) {
-                this.shootingPosition += 0.0001;
+                this.shootingPosition += 0.003;
             } else {
-                this.defaultPosition += 0.0001;
+                this.defaultPosition += 0.003;
             }
         }
         else if (gamepad.dpad_down) {
             if (shootingOn) {
-                this.shootingPosition -= 0.0001;
+                this.shootingPosition -= 0.003;
             } else {
-                this.defaultPosition -= 0.0001;
+                this.defaultPosition -= 0.003;
             }
         }
 
-        telemetry.addData("defaultPosition %f", this.defaultPosition);
-        telemetry.addData("shootingPosition %f", this.shootingPosition);
+        telemetry.addData("defaultPosition", this.defaultPosition);
+        telemetry.addData("shootingPosition", this.shootingPosition);
 
         // logic for controlling if dpad is pressed and released.
         if (gamepad.a) {
@@ -70,8 +70,8 @@ public class DroneShooter {
         } else {
             setPosition(defaultPosition);
         }
-        telemetry.addData("Toggle: %b", buttonPressed);
-        telemetry.addData("Shooting: %b", shootingOn);
-        telemetry.addData("Shooter Position: %f", shooter.getPosition());
+        telemetry.addData("Toggle: ", buttonPressed);
+        telemetry.addData("Shooting: ", shootingOn);
+        telemetry.addData("Shooter Position: ", shooter.getPosition());
     }
 }
