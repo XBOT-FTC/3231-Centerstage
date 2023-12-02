@@ -107,7 +107,6 @@ public class MecanumDrive {
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "frontleft (%.2f), frontright (%.2f), backleft (%.2f), backright (%.2f)", frontLeftPower, frontRightPower, backLeftPower, backRightPower);
-        telemetry.update();
     }
 //    public void determineCommand(String command, double speed, int ticks, Telemetry telemetry) {
 //        //FORWARD
