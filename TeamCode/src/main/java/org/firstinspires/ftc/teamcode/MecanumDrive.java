@@ -33,6 +33,8 @@ public class MecanumDrive {
     private double goalDownSpeed;
     private double ticksPerInch;
 
+    private boolean aPressed;
+
     public MecanumDrive(HardwareMap hardwareMap) throws InterruptedException {
 
         frontLeft = hardwareMap.get(DcMotor.class, "lf_drive");
@@ -49,6 +51,8 @@ public class MecanumDrive {
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        this.aPressed = false;
     }
 
     public void drive(Gamepad gamepad, Telemetry telemetry) {
@@ -74,20 +78,17 @@ public class MecanumDrive {
         backLeftPower = y - x + rx;
         backRightPower = y + x - rx;
 
-//        if (gamepad.dpad_down) {
-//            goalDownSpeed = defaultSpeed - speedChange;
-//            if (goalDownSpeed > minSpeed) {
-//                defaultSpeed -= speedChange;
-//            }
-//        }
-//
-//        if (gamepad.dpad_up) {
-//            goalUpSpeed = defaultSpeed + speedChange;
-//            if (goalUpSpeed < maxSpeed) {
-//                defaultSpeed += speedChange;
-//            }
-//        }
-
+        if (gamepad.a) {
+            if (!aPressed) {
+                grabMode = false;
+                bPress = true;
+            }
+        } else {
+            if (bPress) {
+                grabMode = true;
+                bPress = false;
+            }
+        }
 
         frontLeft.setPower(frontLeftPower * 0.45);
         frontRight.setPower(frontRightPower * 0.45);

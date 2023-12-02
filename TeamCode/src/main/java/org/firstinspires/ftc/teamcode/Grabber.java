@@ -19,6 +19,7 @@ public class Grabber {
         public Grabber(HardwareMap hardwareMap) {
             servoGrabber = hardwareMap.get(Servo.class, "servo");
             servoGrabber.setPosition(closePosition);
+            servoGrabber.setDirection(Servo.Direction.FORWARD);
             this.bPress = false;
         }
 
@@ -28,17 +29,16 @@ public class Grabber {
 
             if (gamepad.b) {
                 if (!bPress) {
-                    grabMode = false;
                     bPress = true;
                 }
             } else {
                 if (bPress) {
-                    grabMode = true;
                     bPress = false;
+                    grabMode = !grabMode;
                 }
             }
+            this.setGrabbingForFirstServo();
             // set the servo to move
-            setGrabbingForFirstServo();
             double servoPosition = servoGrabber.getPosition();
             telemetry.addData("Servo/Grabber position: ", servoPosition);
         }
