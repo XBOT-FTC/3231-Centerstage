@@ -33,7 +33,8 @@ public class MecanumDrive {
     private double goalDownSpeed;
     private double ticksPerInch;
 
-    private boolean aPressed;
+    private boolean buttonPressed = false;
+    private boolean speedMode = false;
 
     public MecanumDrive(HardwareMap hardwareMap) throws InterruptedException {
 
@@ -51,8 +52,6 @@ public class MecanumDrive {
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        this.aPressed = false;
     }
 
     public void drive(Gamepad gamepad, Telemetry telemetry) {
@@ -79,15 +78,22 @@ public class MecanumDrive {
         backRightPower = y + x - rx;
 
         if (gamepad.a) {
-            if (!aPressed) {
-                grabMode = false;
-                bPress = true;
+            if (!buttonPressed) {
+                buttonPressed = true;
             }
         } else {
-            if (bPress) {
-                grabMode = true;
-                bPress = false;
+            if (buttonPressed) {
+                buttonPressed = false;
+                speedMode = !speedMode;
             }
+        }
+
+        // set the servo to move
+        if(speedMode) {
+            frontLeftPower *= 0.25;
+            frontRightPower *= 0.25;
+            backLeftPower *= 0.25;
+            backRightPower *= 0.25;
         }
 
         frontLeft.setPower(frontLeftPower * 0.45);
