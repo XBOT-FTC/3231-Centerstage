@@ -109,68 +109,68 @@ public class MecanumDrive {
         telemetry.addData("Motors", "frontleft (%.2f), frontright (%.2f), backleft (%.2f), backright (%.2f)", frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         telemetry.update();
     }
-//    public void determineCommand(String command, double speed, int ticks, Telemetry telemetry) {
-//        //FORWARD
-//        if (command.equals("FORWARD")) {
-//            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + ticks);
-//            frontRight.setTargetPosition(frontRight.getCurrentPosition() + ticks);
-//            backLeft.setTargetPosition(backLeft.getCurrentPosition() + ticks);
-//            backRight.setTargetPosition(backRight.getCurrentPosition() + ticks);
-//
-//        //BACKWARDS
-//        } else if (command.equals("BACKWARD")) {
-//            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() - ticks);
-//            frontRight.setTargetPosition(frontRight.getCurrentPosition() - ticks);
-//            backLeft.setTargetPosition(backLeft.getCurrentPosition() - ticks);
-//            backRight.setTargetPosition(backRight.getCurrentPosition() - ticks);
-//
-//        //STRAFE LEFT
-//        } else if (command.equals("STRAFE-LEFT")) {
-//            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() - ticks);
-//            frontRight.setTargetPosition(frontRight.getCurrentPosition() + ticks);
-//            backLeft.setTargetPosition(backLeft.getCurrentPosition() + ticks);
-//            backRight.setTargetPosition(backRight.getCurrentPosition() - ticks);
-//
-//
-//        //STRAFE RIGHT
-//        } else if (command.equals("STRAFE-RIGHT")) {
-//            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + ticks);
-//            frontRight.setTargetPosition(frontRight.getCurrentPosition() - ticks);
-//            backLeft.setTargetPosition(backLeft.getCurrentPosition() - ticks);
-//            backRight.setTargetPosition(backRight.get CurrentPosition() + ticks);
-//
-//        //TURN RIGHT
-//        } else if (command.equals("TURN-RIGHT")) {
-//            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + ticks);
-//            frontRight.setTargetPosition(frontRight.getCurrentPosition() - ticks);
-//            backLeft.setTargetPosition(backLeft.getCurrentPosition() + ticks);
-//            backRight.setTargetPosition(backRight.getCurrentPosition() - ticks);
-//
-//        //TURN LEFT
-//        } else if (command.equals("TURN-LEFT")) {
-//            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() - ticks);
-//            frontRight.setTargetPosition(frontRight.getCurrentPosition() + ticks);
-//            backLeft.setTargetPosition(backLeft.getCurrentPosition() - ticks);
-//            backRight.setTargetPosition(backRight.getCurrentPosition() + ticks);
-//
-//        //IF COMMAND IS INVALID
-//        } else {
-//            return;
-//        }
-//
-//        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        frontLeft.setPower(speed);
-//        frontRight.setPower(speed);
-//        backLeft.setPower(speed);
-//        backRight.setPower(speed);
-//
-//        if (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
-//            telemetry.addLine("Motors are successfully moving");
-//        }
-//    }
+    public void determineCommand(String command, double speed, int ticks, Telemetry telemetry) {
+        //FORWARD
+        if (command.equalsIgnoreCase("FORWARD")) {
+            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + ticks);
+            frontRight.setTargetPosition(frontRight.getCurrentPosition() + ticks);
+            backLeft.setTargetPosition(backLeft.getCurrentPosition() + ticks);
+            backRight.setTargetPosition(backRight.getCurrentPosition() + ticks);
+
+        //BACKWARDS
+        } else if (command.equalsIgnoreCase("BACKWARD")) {
+            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() - ticks);
+            frontRight.setTargetPosition(frontRight.getCurrentPosition() - ticks);
+            backLeft.setTargetPosition(backLeft.getCurrentPosition() - ticks);
+            backRight.setTargetPosition(backRight.getCurrentPosition() - ticks);
+
+        //STRAFE LEFT
+        } else if (command.equalsIgnoreCase("STRAFE-LEFT")) {
+            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() - ticks);
+            frontRight.setTargetPosition(frontRight.getCurrentPosition() + ticks);
+            backLeft.setTargetPosition(backLeft.getCurrentPosition() + ticks);
+            backRight.setTargetPosition(backRight.getCurrentPosition() - ticks);
+
+
+        //STRAFE RIGHT
+        } else if (command.equals("STRAFE-RIGHT")) {
+            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + ticks);
+            frontRight.setTargetPosition(frontRight.getCurrentPosition() - ticks);
+            backLeft.setTargetPosition(backLeft.getCurrentPosition() - ticks);
+            backRight.setTargetPosition(backRight.getCurrentPosition() + ticks);
+
+        //TURN RIGHT
+        } else if (command.equals("TURN-RIGHT")) {
+            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + ticks);
+            frontRight.setTargetPosition(frontRight.getCurrentPosition() - ticks);
+            backLeft.setTargetPosition(backLeft.getCurrentPosition() + ticks);
+            backRight.setTargetPosition(backRight.getCurrentPosition() - ticks);
+
+        //TURN LEFT
+        } else if (command.equals("TURN-LEFT")) {
+            frontLeft.setTargetPosition(frontLeft.getCurrentPosition() - ticks);
+            frontRight.setTargetPosition(frontRight.getCurrentPosition() + ticks);
+            backLeft.setTargetPosition(backLeft.getCurrentPosition() - ticks);
+            backRight.setTargetPosition(backRight.getCurrentPosition() + ticks);
+
+        //IF COMMAND IS INVALID
+        } else {
+            return;
+        }
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontLeft.setPower(speed);
+        frontRight.setPower(speed);
+        backLeft.setPower(speed);
+        backRight.setPower(speed);
+
+        if (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+            telemetry.addLine("Motors are successfully moving");
+        }
+    }
 
     public void verticalMovement(int verticalTicks, double speed, Telemetry telemetry) {
         setTargetPosition(frontLeft.getCurrentPosition() + verticalTicks, frontRight.getCurrentPosition() + verticalTicks, backLeft.getCurrentPosition() + verticalTicks, backRight.getCurrentPosition() + verticalTicks);
@@ -180,12 +180,12 @@ public class MecanumDrive {
     }
 
     public void horizontalMovement(String way, int horizontalTicks, Telemetry telemetry, double speed) {
-        if (way.equals("LEFT")) {
+        if (way.equalsIgnoreCase("LEFT")) {
             setTargetPosition(frontLeft.getCurrentPosition() - horizontalTicks, frontRight.getCurrentPosition() + horizontalTicks, backLeft.getCurrentPosition() + horizontalTicks, backRight.getCurrentPosition() - horizontalTicks);
             setRealSpeed(speed);
             runToPosition();
             setStrafeLeftTelemetry(telemetry);
-        } else if (way.equals("RIGHT")) {
+        } else if (way.equalsIgnoreCase("RIGHT")) {
             setTargetPosition(frontLeft.getCurrentPosition() + horizontalTicks, frontRight.getCurrentPosition() - horizontalTicks, backLeft.getCurrentPosition() - horizontalTicks, backRight.getCurrentPosition() + horizontalTicks);
             setRealSpeed(speed);
             runToPosition();

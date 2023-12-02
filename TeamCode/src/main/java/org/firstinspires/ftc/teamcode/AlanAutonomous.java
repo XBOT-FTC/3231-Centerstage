@@ -41,7 +41,7 @@ public class AlanAutonomous extends LinearOpMode {
 
         linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlide.setTargetPosition(armDownPosition);
-        double linearSlidePosition = linearSlide.g.etCurrentPosition();
+        double linearSlidePosition = linearSlide.getCurrentPosition();
 
         driveForward(0.5, 2000);
         strafeRight(0.5, 2000);
