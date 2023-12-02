@@ -64,7 +64,7 @@ public class CompetitionAuto3231ParkingLeft extends LinearOpMode {
         telemetry.addLine("auto started");
         //make sure the robot's back is facing towards the backdrop
         drive.determineCommand("STRAFE-RIGHT",.5,1000,telemetry);
-        drive.determineCommand("BACKWARD",.5,500,telemetry);//assuming it touches the backdrop?
+        drive.determineCommand("BACKWARD",.5,600,telemetry);//assuming it touches the backdrop?
         grabber.openServo(0.7);//score pixel
         drive.determineCommand("strafe-right",0.5,500,telemetry);
         drive.determineCommand("backwards",0.5,500,telemetry);
