@@ -16,10 +16,14 @@ public class Grabber {
     private boolean grabMode1= false;
     private boolean aPress;
     private boolean bPress;
+//    private Servo servoGrabber1 = null;
+//    private boolean grabMode1= false;
+//    private boolean aPress;
+//    private boolean bPress;
 
         public Grabber(HardwareMap hardwareMap) {
             servoGrabber = hardwareMap.get(Servo.class, "servo");
-            servoGrabber.setPosition(0);
+            servoGrabber.setPosition(closePosition);
 
             servoGrabber1 = hardwareMap.get(Servo.class, "ting");
             servoGrabber1.setPosition(0);
@@ -29,38 +33,45 @@ public class Grabber {
 
         public void grab(Gamepad gamepad, Telemetry telemetry) {
 
-            if (gamepad.a) {
-                aPress = true;
-            } else {
-                if (aPress) {
-                    aPress = false;
-                    grabMode = !grabMode;
+//            if (gamepad.y) {
+//                aPress = true;
+//            } else {
+//                if (aPress) {
+//                    aPress = false;
+//                    grabMode = !grabMode;
+//                }
+//            }
+            if (gamepad.y) {
+                if (!grabMode) {
+                    servoGrabber.setPosition(openPosition);
+                    grabMode = true;
+                } else {
+                    servoGrabber.setPosition(closePosition);
+                    grabMode = false;
                 }
-            }
 
-            if (gamepad.b) {
-                bPress = true;
-            } else {
-                if (bPress) {
-                    bPress = false;
-                    grabMode1 = !grabMode1;
+                if (gamepad.b) {
+                    bPress = true;
+                } else {
+                    if (bPress) {
+                        bPress = false;
+                        grabMode1 = !grabMode1;
+                    }
                 }
+//                setGrabbingForFirstServo();
+//                setGrabbingForSecondServo();
+                double servoPosition = servoGrabber.getPosition();
+                telemetry.addData("Servo/Grabber position: ", servoPosition);
             }
-
-            setGrabbingForFirstServo();
-            setGrabbingForSecondServo();
-
-            double servoPosition = servoGrabber.getPosition();
-            telemetry.addData("Servo/Grabber position: ", servoPosition);
         }
 
-      public void setGrabbingForFirstServo() {
-        if (grabMode) {
-            servoGrabber.setPosition(openPosition);
-        } else {
-            servoGrabber.setPosition(closePosition);
-        }
-      }
+//      public void setGrabbingForFirstServo() {
+//        if (grabMode) {
+//            servoGrabber.setPosition(openPosition);
+//        } else {
+//            servoGrabber.setPosition(closePosition);
+//        }
+//      }
 
       public void setGrabbingForSecondServo() {
             if (grabMode1) {
@@ -79,4 +90,8 @@ public class Grabber {
         }
 
 
+    public void setGrabPosition(double closePosition, double openPosition) {
+        this.closePosition = closePosition;
+        this.openPosition = openPosition;
+    }
 }
