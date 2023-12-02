@@ -52,6 +52,10 @@ public class MecanumDrive {
     }
 
     public void drive(Gamepad gamepad, Telemetry telemetry) {
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Setup a variable for each drive wheel to save power level for telemetry
 
@@ -70,19 +74,19 @@ public class MecanumDrive {
         backLeftPower = y - x + rx;
         backRightPower = y + x - rx;
 
-        if (gamepad.dpad_down) {
-            goalDownSpeed = defaultSpeed - speedChange;
-            if (goalDownSpeed > minSpeed) {
-                defaultSpeed -= speedChange;
-            }
-        }
-
-        if (gamepad.dpad_up) {
-            goalUpSpeed = defaultSpeed + speedChange;
-            if (goalUpSpeed < maxSpeed) {
-                defaultSpeed += speedChange;
-            }
-        }
+//        if (gamepad.dpad_down) {
+//            goalDownSpeed = defaultSpeed - speedChange;
+//            if (goalDownSpeed > minSpeed) {
+//                defaultSpeed -= speedChange;
+//            }
+//        }
+//
+//        if (gamepad.dpad_up) {
+//            goalUpSpeed = defaultSpeed + speedChange;
+//            if (goalUpSpeed < maxSpeed) {
+//                defaultSpeed += speedChange;
+//            }
+//        }
 
 
         frontLeft.setPower(frontLeftPower * 0.45);
