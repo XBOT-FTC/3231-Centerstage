@@ -9,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.vision.ThreeRectangleProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "CompAutoBackdrop", group="Test")
-public class CompetitionAuto3231BlueFarFromBoard extends LinearOpMode {
+@Autonomous(name = "CompAutoFar", group="Test")
+public class CompetitionAuto3231CloseToBoard extends LinearOpMode {
 
     VisionPortal myVisionPortal;
     ThreeRectangleProcessor threeRectangleProcessor;
@@ -55,65 +55,63 @@ public class CompetitionAuto3231BlueFarFromBoard extends LinearOpMode {
         //GRABBER SETUPS
         Grabber grabber = new Grabber(hardwareMap);
         grabber.setPosition(0.0, 0.7);
+        //Intaker setup
+        Intaker intaker = new Intaker(hardwareMap);
+        intaker.setSpinPower(1.0);
+        intaker.setStopPower(0.0);
         waitForStart();
         //determineCommand(String command, double speed, int ticks, Telemetry telemetry)
         if(selection == ThreeRectangleProcessor.Selected.LEFT){
             // run AUTO program LEFT here
-            drive.determineCommand("forward", 1, 50, telemetry);//basic movement to go towards the teamprop
-            drive.turnMovement("left", 50, telemetry,1); // rotate to face according place 90 degrees btw
-            drive.determineCommand("forward",1,50,telemetry);//push pixel in, may change based off if ramming into
-            //insert sucking command or whatever it is called
-            drive.determineCommand("backward",1,100, telemetry );//to make space
-            drive.determineCommand("strafe-left", 1,50,telemetry);
-            drive.determineCommand("forward", 1,50,telemetry);
-            drive.turnMovement("right",100,telemetry,1);//go thru tunnel 90 degrees
-            drive.determineCommand("forward",1,100,telemetry);
-            drive.turnMovement("right",50,telemetry,1);// 90 degrees facing backwards
-            drive.determineCommand("backwards", 1,50,telemetry); // all that leads to the wall
-            //idk go left or right for parking, decide later
-            grabber.openServo(0.7);//opens servo
-
-
+            drive.determineCommand("STRAFE-LEFT", 1, 100, telemetry);
+            drive.determineCommand("FORWARD", 1, 110, telemetry);
+            intaker.setSpinPower(-1.0);
+            drive.determineCommand("BACKWARD",1,100, telemetry );
+            intaker.setStopPower(0);
+            drive.determineCommand("STRAFE-RIGHT",1,200,telemetry);
+            drive.determineCommand("FORWARD",1,100,telemetry);
+            drive.turnMovement("LEFT",50,telemetry,1);//rotate to backdrop
+            drive.determineCommand("BACKWARD",1,10,telemetry);//get to the wall
+            grabber.openServo(0.7);
+            //determine parking left or right
+            telemetry.addLine("It's left");
         } else if(selection == ThreeRectangleProcessor.Selected.RIGHT){
             // run AUTO program RIGHT here
-            drive.determineCommand("forward", 1, 100, telemetry);
-            drive.turnMovement("right", 50,telemetry,1);//change if it's a different function
-            //insert sucking command or whatever it is called involves going foward? gotta test  to find out
-            drive.determineCommand("forward",1,50,telemetry);//push pixel
-            drive.determineCommand("backward",1,100, telemetry );
-            drive.turnMovement("left",50,telemetry,1);//90 degrees
-            drive.determineCommand("backward",1,50,telemetry);
-            drive.determineCommand("strafe-left",1,50,telemetry);
-            drive.determineCommand("forward",1,50,telemetry);
-            drive.determineCommand("strafe-left",1,50,telemetry);//goes to wall with this
-            drive.turnMovement("right",50,telemetry,1);//should make the robot face the backdrop with the back
-            grabber.openServo(0.7);//should open servo
-            //idk go left or right for parking, decide later
+            drive.determineCommand("STRAFE-RIGHT", 1 ,100, telemetry);
+            drive.determineCommand("FORWARD", 1, 50, telemetry);
+            intaker.setSpinPower(-1.0);
+            drive.determineCommand("BACKWARD",1,100, telemetry );
+            intaker.setStopPower(0);
+            drive.determineCommand("STRAFE-RIGHT",1,100,telemetry);
+            drive.determineCommand("FORWARD",1,100,telemetry);
+            drive.turnMovement("LEFT",50,telemetry,1);//face the wall
+            grabber.openServo(0.7);
+            //determine parking
             telemetry.addLine("It's right");
         } else if (selection == ThreeRectangleProcessor.Selected.MIDDLE){
             // run AUTO program MIDDLE here
-            drive.determineCommand("forward", 1, 150,telemetry);
-            //intaker command
-            drive.determineCommand("backward",1,140,telemetry);
-            drive.determineCommand("strafe-left",1,150,telemetry);
-            drive.determineCommand("forward", 1, 100,telemetry);
-            drive.determineCommand("strafe-left",1,100,telemetry);
-            drive.turnMovement("right",50,telemetry,1);//rotates 90 left to make back face the backdrop
-            drive.determineCommand("forward",1,100,telemetry);
-            grabber.openServo(0.7);//open servo to score
-            //idk go left or right for parking, decide later
+            drive.determineCommand("FORWARD", 1, 150,telemetry);
+            //intake
+            drive.determineCommand("BACKWARD",1,140,telemetry);
+            drive.determineCommand("STRAFE-RIGHT",1,100,telemetry);
+            drive.determineCommand("FORWARD",1,100,telemetry);
+            drive.turnMovement("LEFT",50,telemetry,1);//face the backdrop
+            drive.determineCommand("FORWARD",1,10,telemetry);//get to the backdrop
+            grabber.openServo(0.7);
+            //determine parking
             telemetry.addLine("It's middle");
         } else {
+            drive.determineCommand("FORWARD", 1, 150,telemetry);
+            //intake command
+            drive.determineCommand("BACKWARD",1,140,telemetry);
+            drive.determineCommand("STRAFE-RIGHT",1,100,telemetry);
+            drive.determineCommand("FORWARD",1,100,telemetry);
+            drive.turnMovement("LEFT",50,telemetry,1);//face the backdrop
+            drive.determineCommand("FORWARD",1,10,telemetry);//get to the backdrop
+            grabber.openServo(0.7);
             // figure out what to do if we can't find anything. perhaps just run the middle program?
             telemetry.addLine("Not Found");
-            drive.determineCommand("forward", 1, 150,telemetry);
-            drive.determineCommand("backward",1,140,telemetry);
-            drive.determineCommand("strafe-left",1,150,telemetry);
-            drive.determineCommand("forward", 1, 100,telemetry);
-            drive.determineCommand("strafe-left",1,100,telemetry);
-            drive.turnMovement("right",50,telemetry,1);//rotates 90 left to make back face the backdrop
-            drive.determineCommand("forward",1,100,telemetry);
-            grabber.openServo(0.7);
+
         }
             telemetry.update();
     }

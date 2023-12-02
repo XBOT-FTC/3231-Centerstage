@@ -9,15 +9,15 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.vision.ThreeRectangleProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "CompAutoParkingRight", group="Test")
-public class CompetitionAuto3231ParkingRight extends LinearOpMode {
+@Autonomous(name = "CompAutoBackdrop", group="Test")
+public class CompetitionAuto3231FarFromBoard extends LinearOpMode {
 
-  /*  VisionPortal myVisionPortal;
+    VisionPortal myVisionPortal;
     ThreeRectangleProcessor threeRectangleProcessor;
-*/
+
     @Override
     public void runOpMode() throws InterruptedException {
-       /* threeRectangleProcessor = new ThreeRectangleProcessor();
+        threeRectangleProcessor = new ThreeRectangleProcessor();
 
         VisionPortal.Builder myVisionPortalBuilder;
 
@@ -48,8 +48,6 @@ public class CompetitionAuto3231ParkingRight extends LinearOpMode {
             telemetry.addData("Camera state", myVisionPortal.getCameraState());
             telemetry.update();
         }
-        */
-
         //DRIVE SETUPS
         MecanumDrive drive = new MecanumDrive(hardwareMap);
         drive.setSpeedChange(0.25);
@@ -57,31 +55,24 @@ public class CompetitionAuto3231ParkingRight extends LinearOpMode {
         //GRABBER SETUPS
         Grabber grabber = new Grabber(hardwareMap);
         grabber.setPosition(0.0, 0.7);
+        waitForStart();
         //intaker setup
         Intaker intaker = new Intaker(hardwareMap);
         intaker.setSpinPower(1.0);
         intaker.setStopPower(0.0);
-        waitForStart();
-        //make the robot's back face TOWARDS the backdrop
-        drive.determineCommand("STRAFE-RIGHT",.5,1000,telemetry);
-        drive.determineCommand("BACKWARD",.5,1000,telemetry);//assuming it touches the backdrop?
-        grabber.openServo(0.7);//score pixel
-        drive.determineCommand("STRAFE-LEFT",0.5,1000,telemetry);
-        drive.determineCommand("BACKWARD",0.5,1000,telemetry);
-        //parked?
-
         //determineCommand(String command, double speed, int ticks, Telemetry telemetry)
-/*        if(selection == ThreeRectangleProcessor.Selected.LEFT){
+        if(selection == ThreeRectangleProcessor.Selected.LEFT){
             // run AUTO program LEFT here
-            drive.determineCommand("FORWARD", 1, 50, telemetry);//basic movement to go towards the teamprop
-            drive.turnMovement("LEFT", 50, telemetry,1); // rotate to face according place 90 degrees btw
-            drive.determineCommand("FORWARD",1,50,telemetry);//push pixel in, may change based off if ramming into
-            //insert sucking command or whatever it is called
-            drive.determineCommand("BACKWARD",1,100, telemetry );//to make space
-            drive.determineCommand("STRAFE-LEFT", 1,50,telemetry);
-            drive.determineCommand("FORWARD", 1,50,telemetry);
-            drive.turnMovement("RIGHT",100,telemetry,1);//go thru tunnel 90 degrees
-            drive.determineCommand("FORWARD",1,100,telemetry);
+            drive.determineCommand("FORWARD", 1, 500, telemetry);//basic movement to go towards the teamprop
+            drive.turnMovement("LEFT", 500, telemetry,1); // rotate to face according place 90 degrees btw
+            drive.determineCommand("FORWARD",1,500,telemetry);//push pixel in, may change based off if ramming into
+            intaker.setSpinPower(1.0);
+            drive.determineCommand("BACKWARD",1,1000, telemetry );//to make space
+            intaker.setStopPower(0);
+            drive.determineCommand("STRAFE-LEFT", 1,500,telemetry);
+            drive.determineCommand("FORWARD", 1,500,telemetry);
+            drive.turnMovement("RIGHT",1000,telemetry,1);//go thru tunnel 90 degrees
+            drive.determineCommand("FORWARD",1,1000,telemetry);
             drive.turnMovement("RIGHT",50,telemetry,1);// 90 degrees facing backwards
             drive.determineCommand("BACKWARD", 1,50,telemetry); // all that leads to the wall
             //idk go left or right for parking, decide later
@@ -106,7 +97,7 @@ public class CompetitionAuto3231ParkingRight extends LinearOpMode {
             telemetry.addLine("It's right");
         } else if (selection == ThreeRectangleProcessor.Selected.MIDDLE){
             // run AUTO program MIDDLE here
-            drive.determineCommand("forward", 1, 150,telemetry);
+            drive.determineCommand("FORWARD", 1, 150,telemetry);
             //intaker command
             drive.determineCommand("BACKWARD",1,140,telemetry);
             drive.determineCommand("STRAFE-LEFT",1,150,telemetry);
@@ -128,7 +119,7 @@ public class CompetitionAuto3231ParkingRight extends LinearOpMode {
             drive.turnMovement("RIGHT",50,telemetry,1);//rotates 90 left to make back face the backdrop
             drive.determineCommand("FORWARD",1,100,telemetry);
             grabber.openServo(0.7);
-        } */
+        }
             telemetry.update();
     }
 }
