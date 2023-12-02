@@ -44,6 +44,11 @@ public class MecanumDrive {
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.FORWARD);
         backRight.setDirection(DcMotor.Direction.REVERSE);
+
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void drive(Gamepad gamepad, Telemetry telemetry) {
@@ -80,10 +85,10 @@ public class MecanumDrive {
         }
 
 
-        frontLeft.setPower(frontLeftPower);
-        frontRight.setPower(frontRightPower);
-        backLeft.setPower(backLeftPower);
-        backRight.setPower(backRightPower);
+        frontLeft.setPower(frontLeftPower * 0.45);
+        frontRight.setPower(frontRightPower * 0.45);
+        backLeft.setPower(backLeftPower * 0.45);
+        backRight.setPower(backRightPower * 0.45);
 
 
 
@@ -154,6 +159,7 @@ public class MecanumDrive {
 
         //IF COMMAND IS INVALID
         } else {
+            telemetry.addLine("ELSE");
             return;
         }
 
@@ -166,8 +172,12 @@ public class MecanumDrive {
         backLeft.setPower(speed);
         backRight.setPower(speed);
 
-        if (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+
+        while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+            telemetry.addData("current position", frontLeft.getCurrentPosition());
+            telemetry.addData("target position", frontLeft.getTargetPosition());
             telemetry.addLine("Motors are successfully moving");
+            telemetry.update();
         }
     }
 

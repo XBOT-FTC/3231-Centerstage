@@ -25,8 +25,8 @@ public class Grabber {
             servoGrabber = hardwareMap.get(Servo.class, "servo");
             servoGrabber.setPosition(closePosition);
 
-            servoGrabber1 = hardwareMap.get(Servo.class, "ting");
-            servoGrabber1.setPosition(0);
+ /*           servoGrabber1 = hardwareMap.get(Servo.class, "ting");
+            servoGrabber1.setPosition(0); */
         }
 
 
