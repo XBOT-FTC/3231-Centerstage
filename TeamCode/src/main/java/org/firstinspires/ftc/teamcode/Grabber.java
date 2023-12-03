@@ -18,7 +18,7 @@ public class Grabber {
 
         public Grabber(HardwareMap hardwareMap) {
             servoGrabber = hardwareMap.get(Servo.class, "servo");
-            servoGrabber.setPosition(closePosition);
+            //servoGrabber.setPosition(openPosition);
             servoGrabber.setDirection(Servo.Direction.FORWARD);
             this.bPress = false;
         }

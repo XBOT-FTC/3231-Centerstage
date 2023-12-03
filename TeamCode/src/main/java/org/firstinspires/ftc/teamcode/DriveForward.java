@@ -1,16 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.util.Size;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.vision.ThreeRectangleProcessor;
-import org.firstinspires.ftc.vision.VisionPortal;
-
-@Autonomous(name = "CompAutoParkingLeft", group="Test")
-public class CompetitionAuto3231ParkingLeft extends LinearOpMode {
+@Autonomous(name = "StraightPark", group="Test")
+public class DriveForward extends LinearOpMode {
 
   /*  VisionPortal myVisionPortal;
     ThreeRectangleProcessor threeRectangleProcessor;
@@ -56,7 +50,7 @@ public class CompetitionAuto3231ParkingLeft extends LinearOpMode {
         drive.setSpeedChange(0.25);
         //GRABBER SETUPS
         Grabber grabber = new Grabber(hardwareMap);
-        grabber.setPosition(0.0, 0.7);
+        grabber.setPosition(0.0, 1);
         telemetry.addLine("waiting for start");
         telemetry.update();
         //intaker setup
@@ -65,14 +59,21 @@ public class CompetitionAuto3231ParkingLeft extends LinearOpMode {
         intaker.setStopPower(0.0);
         waitForStart();
         telemetry.addLine("auto started");
+        //2000 for parking
         //make sure the robot's back is facing towards the backdrop
-        drive.determineCommand("STRAFE-RIGHT",.5,1000,telemetry);
-        drive.determineCommand("BACKWARD",.5,400,telemetry);//assuming it touches the backdrop?
-        grabber.openServo(0.7);//score pixel (note on 12/1/23 : find this to work during the comp)
-        drive.determineCommand("STRAFE-RIGHT",0.5,1000,telemetry);
-        drive.determineCommand("BACKWARD",0.5,1000,telemetry);
-        telemetry.addLine("auto stopped");
+        drive.determineCommand("BACKWARD",.5,1100,telemetry);
+        drive.determineCommand("STRAFE-RIGHT",.5,1400,telemetry);
+        drive.determineCommand("BACKWARD",.3,600,telemetry);
+        grabber.openServo(0);
+        sleep(4000);
+        drive.determineCommand("FORWARD",.5,400,telemetry);
+        sleep(2000);
+        drive.determineCommand("STRAFE-LEFT",.5,1350,telemetry);
+        sleep(2000);
+        drive.determineCommand("BACKWARD",.5,650,telemetry);
+
         telemetry.update();
+
         //parked
 
   /*      if(selection == ThreeRectangleProcessor.Selected.LEFT){

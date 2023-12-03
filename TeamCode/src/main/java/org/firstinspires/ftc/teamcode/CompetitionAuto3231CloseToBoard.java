@@ -63,40 +63,40 @@ public class CompetitionAuto3231CloseToBoard extends LinearOpMode {
         //determineCommand(String command, double speed, int ticks, Telemetry telemetry)
         if(selection == ThreeRectangleProcessor.Selected.LEFT){
             // run AUTO program LEFT here
-            drive.determineCommand("STRAFE-LEFT", 1, 100, telemetry);
-            drive.determineCommand("FORWARD", 1, 110, telemetry);
+            drive.determineCommand("STRAFE-LEFT", 1, 1000, telemetry);
+            drive.determineCommand("FORWARD", 1, 1100, telemetry);
             intaker.setSpinPower(-1.0);
-            drive.determineCommand("BACKWARD",1,100, telemetry );
+            drive.determineCommand("BACKWARD",1,1000, telemetry );
             intaker.setStopPower(0);
-            drive.determineCommand("STRAFE-RIGHT",1,200,telemetry);
-            drive.determineCommand("FORWARD",1,100,telemetry);
-            drive.turnMovement("LEFT",50,telemetry,1);//rotate to backdrop
-            drive.determineCommand("BACKWARD",1,10,telemetry);//get to the wall
+            drive.determineCommand("STRAFE-RIGHT",1,2000,telemetry);
+            drive.determineCommand("FORWARD",1,1000,telemetry);
+            drive.turnMovement("LEFT",500,telemetry,1);//rotate to backdrop
+            drive.determineCommand("BACKWARD",1,100,telemetry);//get to the wall
             grabber.openServo(0.7);
             //determine parking left or right
             telemetry.addLine("It's left");
         } else if(selection == ThreeRectangleProcessor.Selected.RIGHT){
             // run AUTO program RIGHT here
-            drive.determineCommand("STRAFE-RIGHT", 1 ,100, telemetry);
-            drive.determineCommand("FORWARD", 1, 50, telemetry);
+            drive.determineCommand("STRAFE-RIGHT", 1 ,1000, telemetry);
+            drive.determineCommand("FORWARD", 1, 500, telemetry);
             intaker.setSpinPower(-1.0);
-            drive.determineCommand("BACKWARD",1,100, telemetry );
+            drive.determineCommand("BACKWARD",1,1000, telemetry );
             intaker.setStopPower(0);
-            drive.determineCommand("STRAFE-RIGHT",1,100,telemetry);
-            drive.determineCommand("FORWARD",1,100,telemetry);
-            drive.turnMovement("LEFT",50,telemetry,1);//face the wall
+            drive.determineCommand("STRAFE-RIGHT",1,1000,telemetry);
+            drive.determineCommand("FORWARD",1,1000,telemetry);
+            drive.turnMovement("LEFT",500,telemetry,1);//face the wall
             grabber.openServo(0.7);
             //determine parking
             telemetry.addLine("It's right");
         } else if (selection == ThreeRectangleProcessor.Selected.MIDDLE){
             // run AUTO program MIDDLE here
-            drive.determineCommand("FORWARD", 1, 150,telemetry);
+            drive.determineCommand("FORWARD", 1, 1500,telemetry);
             //intake
-            drive.determineCommand("BACKWARD",1,140,telemetry);
-            drive.determineCommand("STRAFE-RIGHT",1,100,telemetry);
-            drive.determineCommand("FORWARD",1,100,telemetry);
-            drive.turnMovement("LEFT",50,telemetry,1);//face the backdrop
-            drive.determineCommand("FORWARD",1,10,telemetry);//get to the backdrop
+            drive.determineCommand("BACKWARD",1,1400,telemetry);
+            drive.determineCommand("STRAFE-RIGHT",1,1000,telemetry);
+            drive.determineCommand("FORWARD",1,1000,telemetry);
+            drive.turnMovement("LEFT",500,telemetry,1);//face the backdrop
+            drive.determineCommand("FORWARD",1,100,telemetry);//get to the backdrop
             grabber.openServo(0.7);
             //determine parking
             telemetry.addLine("It's middle");
