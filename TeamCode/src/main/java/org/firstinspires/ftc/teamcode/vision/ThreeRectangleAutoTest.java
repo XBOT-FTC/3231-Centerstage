@@ -11,6 +11,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 @TeleOp(name = "Three Rectangle Auto Test", group="Test")
 public class ThreeRectangleAutoTest extends LinearOpMode {
 
+    public String rereturn = "";
     VisionPortal myVisionPortal;
     ThreeRectangleProcessor threeRectangleProcessor;
 
@@ -52,6 +53,7 @@ public class ThreeRectangleAutoTest extends LinearOpMode {
 
         if(selection == ThreeRectangleProcessor.Selected.LEFT){
             // run AUTO program LEFT here
+
             telemetry.addLine("It's left");
         } else if(selection == ThreeRectangleProcessor.Selected.RIGHT){
             // run AUTO program MIDDLE here
@@ -65,4 +67,30 @@ public class ThreeRectangleAutoTest extends LinearOpMode {
         }
             telemetry.update();
     }
-}
+
+    public String returnPlacement(){
+        ThreeRectangleProcessor.Selected selection = ThreeRectangleProcessor.Selected.NONE;
+        selection = threeRectangleProcessor.getSelection();
+        telemetry.addLine("NOT started yet.");
+        telemetry.addLine(selection.name());
+        telemetry.addData("Camera state", myVisionPortal.getCameraState());
+        telemetry.update();
+        if(selection == ThreeRectangleProcessor.Selected.LEFT){
+            // run AUTO program LEFT here
+
+            telemetry.addLine("It's left");
+        } else if(selection == ThreeRectangleProcessor.Selected.RIGHT){
+            // run AUTO program MIDDLE here
+            telemetry.addLine("It's right");
+        } else if (selection == ThreeRectangleProcessor.Selected.MIDDLE){
+            // run AUTO program RIGHT here
+            telemetry.addLine("It's middle");
+        } else {
+            // figure out what to do if we can't find anything. perhaps just run the middle program?
+            telemetry.addLine("Not Found");
+        }
+        telemetry.update();
+        return rereturn;
+     }
+    }
+
