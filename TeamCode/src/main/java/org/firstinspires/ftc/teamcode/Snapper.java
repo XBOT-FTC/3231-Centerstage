@@ -22,9 +22,13 @@ public class Snapper {
         if (gamepad.left_bumper) {
             snapper.setPower(-0.75);
         }
-        if (gamepad.right_bumper) {
+        else if (gamepad.right_bumper) {
             snapper.setPower(0.75);
+        } else {
+            snapper.setPower(0.0);
         }
+
+        telemetry.addData("snapper power", snapper.getPower());
 
     }
 
