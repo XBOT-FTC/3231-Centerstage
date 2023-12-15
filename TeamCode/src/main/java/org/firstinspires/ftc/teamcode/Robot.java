@@ -49,9 +49,10 @@ public class Robot extends LinearOpMode {
         hanger.setHangerPower(1.0);
 
         // INTAKER SETUPS
-        Intaker intaker = new Intaker(hardwareMap);
-        intaker.setSpinPower(1.0);
-        intaker.setStopPower(0.0);
+//        Intaker intaker = new Intaker(hardwareMap);
+//        intaker.setSpinPower(1.0);
+//        intaker.setStopPower(0.0);
+        Snapper snapper = new Snapper(hardwareMap);
 
 
         waitForStart();
@@ -59,9 +60,10 @@ public class Robot extends LinearOpMode {
         while(opModeIsActive()) {
             drive.drive(gamepad1, telemetry);
             grabber.grab(gamepad2, telemetry);
-            intaker.moveIntake(gamepad2, telemetry);
+//            intaker.moveIntake(gamepad2, telemetry);
             droneShooter.shootingControls(gamepad2, telemetry);
             hanger.moveHanger(gamepad2, telemetry);
+            snapper.snapperTrigger(gamepad2, telemetry);
             telemetry.update();
         }
     }
