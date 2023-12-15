@@ -249,9 +249,4 @@ public class MecanumDrive {
             telemetry.addLine("Motors are currently strafing right!");
         }
     }
-
-
-    public void setSpeedChange(double speedChange) {
-        this.speedChange = speedChange;
-    }
 }

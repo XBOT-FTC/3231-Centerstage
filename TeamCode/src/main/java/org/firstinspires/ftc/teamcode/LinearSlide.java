@@ -66,8 +66,8 @@ public class LinearSlide {
         if (Math.abs(linearSlide.getTargetPosition() - linearSlide.getCurrentPosition()) < 25) {
             linearSlide.setPower(0);
         }
-        updatedFirstPosition = linearSlide.getCurrentPosition();
-        telemetry.addLine("Current Position for linear slides" + updatedFirstPosition);
+        telemetry.addData("Current Position for linear slides", linearSlide.getCurrentPosition());
+        telemetry.addData("Target Position", linearSlide.getTargetPosition());
 
     }
     public void setMaxPosition(int maxPosition) {

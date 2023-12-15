@@ -53,7 +53,6 @@ public class CompetitionAuto3231ParkingLeft extends LinearOpMode {
 
         //DRIVE SETUPS
         MecanumDrive drive = new MecanumDrive(hardwareMap);
-        drive.setSpeedChange(0.25);
 
         //GRABBER SETUPS
         Grabber grabber = new Grabber(hardwareMap);
