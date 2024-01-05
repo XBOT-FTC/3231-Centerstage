@@ -83,26 +83,19 @@ public class RedBackdrop extends LinearOpMode {
                     .build();
         } else if (selection == ThreeRectangleProcessor.Selected.MIDDLE || selection == ThreeRectangleProcessor.Selected.NONE) {
             //middle trajectory
-            myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
-                    .forward(30)
+            myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13,-63, Math.toRadians(90)))
+                    .forward(37)
                     .waitSeconds(0.3)
                     .back(6)
-                    .strafeLeft(20)
                     .waitSeconds(0.3)
-                    .forward(10)
-                    .waitSeconds(10)
-                    //intaker
-                    .waitSeconds(0.5)
-                    .splineToSplineHeading(new Pose2d(-34, -10), Math.toRadians(180))
-                    .splineToSplineHeading(new Pose2d(30, -10), Math.toRadians(180))
-                    .splineToSplineHeading(new Pose2d(51, -42, Math.toRadians(180)), Math.toRadians(0))
-                    .waitSeconds(0.5)
+                    .splineTo(new Vector2d(13, -63), Math.toRadians(-90))
+                    .waitSeconds(0.3)
                     //servo
-                    .waitSeconds(0.5)
-                    .forward(20)
+                    .splineToLinearHeading(new Pose2d(48, -32, Math.toRadians(180)), Math.toRadians(0))
                     .splineTo(new Vector2d(40, -60), Math.toRadians(0))
                     .splineTo(new Vector2d(60, -60), Math.toRadians(0))
                     .build();
+
         }
         waitForStart();
 
