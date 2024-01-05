@@ -55,12 +55,11 @@ public class DroneShooter {
         if (gamepad.a) {
             if (!buttonPressed) {
                 buttonPressed = true;
-                shootingOn = false;
             }
         } else {
             if (buttonPressed) {
-                shootingOn = true;
                 buttonPressed = false;
+                shootingOn = !shootingOn;
             }
         }
 

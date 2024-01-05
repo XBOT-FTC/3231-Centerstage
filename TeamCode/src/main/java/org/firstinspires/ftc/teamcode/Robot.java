@@ -26,9 +26,9 @@ public class Robot extends LinearOpMode {
 
         //GRABBER SETUPS
         Grabber grabber = new Grabber(hardwareMap);
-        grabber.setGrabPosition(0.0, 1.0);
+        grabber.setGrabPosition(1.0, 0.0);
 
-        DroneShooter droneShooter = new DroneShooter(hardwareMap, Servo.Direction.FORWARD, 0.1, 0.7);
+        DroneShooter droneShooter = new DroneShooter(hardwareMap, Servo.Direction.FORWARD, 0.7, 0.1);
 
         //LINEAR SLIDE SETUPS
 //        LinearSlide linearSlide = new LinearSlide(hardwareMap);
