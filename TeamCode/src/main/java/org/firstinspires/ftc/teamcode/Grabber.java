@@ -22,8 +22,7 @@ public class Grabber {
 //    private boolean bPress;
 
         public Grabber(HardwareMap hardwareMap) {
-            servoGrabber = hardwareMap.get(Servo.class, "servo");
-            servoGrabber.setPosition(closePosition);
+
 
  /*           servoGrabber1 = hardwareMap.get(Servo.class, "ting");
             servoGrabber1.setPosition(0); */
