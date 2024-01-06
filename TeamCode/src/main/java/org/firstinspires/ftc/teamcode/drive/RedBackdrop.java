@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Grabber;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.ThreeRectangleProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -18,6 +19,7 @@ public class RedBackdrop extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         VisionPortal myVisionPortal;
+        Grabber grabber = new Grabber(hardwareMap);
         ThreeRectangleProcessor threeRectangleProcessor;
         threeRectangleProcessor = new ThreeRectangleProcessor();
         VisionPortal.Builder myVisionPortalBuilder;
@@ -44,7 +46,7 @@ public class RedBackdrop extends LinearOpMode {
         ThreeRectangleProcessor.Selected selection = ThreeRectangleProcessor.Selected.NONE;
 
 
-        drive.setPoseEstimate(new Pose2d(13, -63, Math.toRadians(270)));
+        drive.setPoseEstimate(new Pose2d(13, -63, Math.toRadians(90)));
         if (selection == ThreeRectangleProcessor.Selected.RIGHT) {
             //if right vision code
             myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13, -63, Math.toRadians(90)))
@@ -55,7 +57,11 @@ public class RedBackdrop extends LinearOpMode {
                     .back(20)
                     .waitSeconds(1)
                     .splineToLinearHeading(new Pose2d(48, -42, Math.toRadians(180)), Math.toRadians(0))
+                    .waitSeconds(0.5)
                     //servo drops yellow pixel
+                    .addDisplacementMarker(() -> {
+                        grabber.openServo(1);
+                    })
                     .waitSeconds(1)
                     .forward(4)
                     .splineTo(new Vector2d(40, -60), Math.toRadians(0))
@@ -75,6 +81,10 @@ public class RedBackdrop extends LinearOpMode {
                     .splineTo(new Vector2d(13, -63), Math.toRadians(-90))
                     .splineToLinearHeading(new Pose2d(48, -29, Math.toRadians(180)), Math.toRadians(0))
                     //placing
+                    .waitSeconds(0.5)
+                    .addDisplacementMarker(() -> {
+                        grabber.openServo(1);
+                    })
                     .waitSeconds(2)
                     //parking
                     .strafeLeft(30)
@@ -85,13 +95,15 @@ public class RedBackdrop extends LinearOpMode {
             //middle trajectory
             myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13,-63, Math.toRadians(90)))
                     .forward(37)
-                    .waitSeconds(0.3)
-                    .back(6)
-                    .waitSeconds(0.3)
-                    .splineTo(new Vector2d(13, -63), Math.toRadians(-90))
-                    .waitSeconds(0.3)
+                    .waitSeconds(2)
+                    .back(19)
+                    .waitSeconds(2)
                     //servo
                     .splineToLinearHeading(new Pose2d(48, -32, Math.toRadians(180)), Math.toRadians(0))
+                    .waitSeconds(0.5)
+                    .addDisplacementMarker(() -> {
+                    })
+                    .waitSeconds(0.5)
                     .splineTo(new Vector2d(40, -60), Math.toRadians(0))
                     .splineTo(new Vector2d(60, -60), Math.toRadians(0))
                     .build();

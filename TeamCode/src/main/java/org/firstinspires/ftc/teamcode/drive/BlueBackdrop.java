@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Grabber;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.ThreeRectangleProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -20,6 +21,7 @@ public class BlueBackdrop extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         VisionPortal myVisionPortal;
+        Grabber grabber = new Grabber(hardwareMap);
         ThreeRectangleProcessor threeRectangleProcessor;
         threeRectangleProcessor = new ThreeRectangleProcessor();
         VisionPortal.Builder myVisionPortalBuilder;
@@ -60,12 +62,16 @@ public class BlueBackdrop extends LinearOpMode {
                     .waitSeconds(.03)
                     .splineToSplineHeading(new Pose2d(51, 42, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
+                    .addDisplacementMarker(() -> {
+                        grabber.openServo(1);
+                    })
+                    .waitSeconds(0.5)
                     //servo
                     .forward(7)
                     .waitSeconds(0.4)
                     .splineTo(new Vector2d(53, 57), Math.toRadians(180))
                     .build();
-        }else if(selection == ThreeRectangleProcessor.Selected.MIDDLE) {
+        }else if(selection == ThreeRectangleProcessor.Selected.MIDDLE || selection == ThreeRectangleProcessor.Selected.NONE) {
             //middle trajectory
             myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13, 60, Math.toRadians(270)))
                     .forward(35)
@@ -76,6 +82,10 @@ public class BlueBackdrop extends LinearOpMode {
                     .splineToSplineHeading(new Pose2d(51, 36, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
                     //servo
+                    .addDisplacementMarker(() -> {
+                        grabber.openServo(1);
+                    })
+                    .waitSeconds(0.5)
                     .forward(7)
                     .waitSeconds(0.4)
                     .splineTo(new Vector2d(53, 57), Math.toRadians(180))
@@ -91,6 +101,10 @@ public class BlueBackdrop extends LinearOpMode {
                     .splineToSplineHeading(new Pose2d(51, 36, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
                     //servo
+                    .addDisplacementMarker(() -> {
+                        grabber.openServo(1);
+                    })
+                    .waitSeconds(0.5)
                     .forward(7)
                     .waitSeconds(0.4)
                     .splineTo(new Vector2d(53, 57), Math.toRadians(180))

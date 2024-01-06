@@ -2,11 +2,15 @@ package org.firstinspires.ftc.teamcode.drive;
 
 import android.util.Size;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Grabber;
+import org.firstinspires.ftc.teamcode.Intaker;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.ThreeRectangleProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -18,6 +22,8 @@ public class RedAwayBackdrop extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         VisionPortal myVisionPortal;
+        Grabber grabber = new Grabber(hardwareMap);
+        Intaker intaker = new Intaker(hardwareMap);
         ThreeRectangleProcessor threeRectangleProcessor;
         threeRectangleProcessor = new ThreeRectangleProcessor();
         VisionPortal.Builder myVisionPortalBuilder;
@@ -51,13 +57,21 @@ public class RedAwayBackdrop extends LinearOpMode {
                     .splineTo(new Vector2d(-28, -34), Math.toRadians(0))
                     .waitSeconds(10)
                     //intaker
+
+                    .addDisplacementMarker(() -> {
+                 //   intaker.setPower(spinPower);
+                    })
                     .back(20)
                     .waitSeconds(0.5)
-                    .splineToSplineHeading(new Pose2d(-34, -10), Math.toRadians(180))
-                    .splineToSplineHeading(new Pose2d(30, -10), Math.toRadians(180))
+                    .strafeRight(24)
+                    .waitSeconds(0.5)
+                    .forward(40)
                     .splineToSplineHeading(new Pose2d(51, -42, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
                     //servo
+                    .addDisplacementMarker(() -> {
+                        grabber.openServo(1);
+                    })
                     .waitSeconds(0.5)
                     .forward(20)
                     .splineTo(new Vector2d(40, -60), Math.toRadians(0))
@@ -69,16 +83,23 @@ public class RedAwayBackdrop extends LinearOpMode {
                     .forward(30)
                     .waitSeconds(0.3)
                     .splineTo(new Vector2d(-47, -32), Math.toRadians(180))
-                    .waitSeconds(0.3)
-                    .back(20)
-                    .waitSeconds(10)
                     //intaker
+                    .waitSeconds(0.3)
+                    .back(13)
+                    .waitSeconds(0.3)
+                    .strafeLeft(4)
+                    .waitSeconds(0.3)
+                    .turn(Math.toRadians(180))
+                    .waitSeconds(0.3)
+                    .strafeRight(24)
+                    .waitSeconds(10)
+                    .forward(37)
                     .waitSeconds(0.5)
-                    .splineToSplineHeading(new Pose2d(-34, -10), Math.toRadians(180))
-                    .splineToSplineHeading(new Pose2d(30, -10), Math.toRadians(180))
                     .splineToSplineHeading(new Pose2d(51, -42, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
-                    //servo
+                    .addDisplacementMarker(() -> {
+                        grabber.openServo(1);
+                    })
                     .waitSeconds(0.5)
                     .forward(20)
                     .splineTo(new Vector2d(40, -60), Math.toRadians(0))
@@ -88,18 +109,21 @@ public class RedAwayBackdrop extends LinearOpMode {
             //middle trajectory
             myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
                     .forward(30)
-                    .waitSeconds(0.3)
-                    .strafeLeft(20)
-                    .waitSeconds(0.3)
-                    .back(20)
-                    .waitSeconds(10)
                     //intaker
+                    .waitSeconds(0.3)
+                    .back(27)
+                    .waitSeconds(0.3)
+                    .turn(Math.toRadians(-90))
+                    .waitSeconds(0.3)
+                    .waitSeconds(10)
+                    .forward(36)
                     .waitSeconds(0.5)
-                    .splineToSplineHeading(new Pose2d(-34, -10), Math.toRadians(180))
-                    .splineToSplineHeading(new Pose2d(30, -10), Math.toRadians(180))
                     .splineToSplineHeading(new Pose2d(51, -42, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
                     //servo
+                    .addDisplacementMarker(() -> {
+                        grabber.openServo(1);
+                    })
                     .waitSeconds(0.5)
                     .forward(20)
                     .splineTo(new Vector2d(40, -60), Math.toRadians(0))
