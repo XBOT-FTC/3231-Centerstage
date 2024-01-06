@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Intaker {
-    private CRServo intaker;
+    private DcMotor intaker;
     public boolean spinMode = false;
     public boolean reverseSpinMode = false;
     public double spinPower;
@@ -17,7 +17,7 @@ public class Intaker {
 
 
     public Intaker(HardwareMap hardwareMap) {
-        intaker = hardwareMap.get(CRServo.class, "intaker");
+        intaker = hardwareMap.get(DcMotor.class, "intaker");
         intaker.setDirection(CRServo.Direction.FORWARD);
     }
 
@@ -26,15 +26,19 @@ public class Intaker {
     }
 
     public void intakeTrigger(Gamepad gamepad, Telemetry telemetry) {
-        if (gamepad.left_bumper || gamepad.right_bumper) {
-            if (gamepad.left_bumper) {
+        if (gamepad.b || gamepad.x) {
+            if (gamepad.b) {
                 intaker.setPower(-spinPower);
-            } else if (gamepad.right_bumper) {
+            } else if (gamepad.x) {
                 intaker.setPower(spinPower);
             }
+
+
         } else {
             intaker.setPower(stopPower);
         }
+
+
         telemetry.addData("Current spinning power", spinPower);
     }
 

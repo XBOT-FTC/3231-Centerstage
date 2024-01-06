@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -15,20 +14,21 @@ public class Snapper {
 
     public Snapper(HardwareMap hardwareMap) {
         snapper = hardwareMap.get(CRServo.class, "snapper");
-        snapper.setDirection(CRServo.Direction.REVERSE);
+        snapper.setDirection(CRServo.Direction.FORWARD);
+    }
+
+    public void moveSnapper(Gamepad gamepad, Telemetry telemetry) {
+        snapperTrigger(gamepad, telemetry);
     }
 
     public void snapperTrigger(Gamepad gamepad, Telemetry telemetry) {
-        if (gamepad.left_bumper) {
-            snapper.setPower(-0.75);
-        }
-        else if (gamepad.right_bumper) {
-            snapper.setPower(0.75);
-        } else {
-            snapper.setPower(0.0);
-        }
+            if (gamepad.right_bumper) {
+                snapper.setPower(1.0);
+            } else {
+                snapper.setPower(0.0);
+            }
 
-        telemetry.addData("snapper power", snapper.getPower());
+            telemetry.addData("Snapper power:", snapper.getPower());
 
     }
 
