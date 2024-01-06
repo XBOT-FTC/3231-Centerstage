@@ -34,33 +34,27 @@ public class Hanger {
 
     public void hangerTrigger(Gamepad gamepad, Telemetry telemetry) {
         currentFirstPosition = actualHanger.getCurrentPosition();
-//        if(gamepad.y) {
-//            actualHanger.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//            actualHanger.setPower(-0.25);
-//        }
+
         if (gamepad.right_trigger > 0) {
             goalUpPosition = currentFirstPosition + upTicks;
-//            if (goalUpPosition > maxPosition) {
-//                goalUpPosition = maxPosition;
-//            }
             actualHanger.setTargetPosition(goalUpPosition);
             actualHanger.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             actualHanger.setPower(hangerPower);
-//
-//
-        }
-        if (gamepad.left_trigger > 0) {
+        } else if (gamepad.left_trigger > 0) {
             goalDownPosition = currentFirstPosition - downTicks;
-//            if (goalDownPosition < minPosition) {
-//               goalDownPosition = minPosition;
-//            }
             actualHanger.setTargetPosition(goalDownPosition);
             actualHanger.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             actualHanger.setPower(-hangerPower);
 
+        } else {
+            actualHanger.setPower(0);
         }
-        telemetry.addData("Current Position for linear slides %d", actualHanger.getCurrentPosition());
-        telemetry.addLine("");
+//        if (Math.abs(actualHanger.getTargetPosition() - actualHanger.getCurrentPosition()) < 15) {
+//            actualHanger.setPower(0);
+//        }
+
+        telemetry.addData("Current Position for linear slides", actualHanger.getCurrentPosition());
+        telemetry.addData("Target Position for linear slides", actualHanger.getTargetPosition());
 
     }
     public void setMaxPosition(int maxPosition) {

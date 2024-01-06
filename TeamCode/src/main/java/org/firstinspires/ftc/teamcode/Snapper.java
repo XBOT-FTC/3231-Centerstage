@@ -24,8 +24,7 @@ public class Snapper {
     public void snapperTrigger(Gamepad gamepad, Telemetry telemetry) {
             if (gamepad.right_bumper) {
                 snapper.setPower(1.0);
-            }
-            if (gamepad.left_bumper) {
+            } else {
                 snapper.setPower(0.0);
             }
 
