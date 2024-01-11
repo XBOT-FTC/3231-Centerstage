@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Grabber;
+import org.firstinspires.ftc.teamcode.Intaker;
+import org.firstinspires.ftc.teamcode.Snapper;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.ThreeRectangleProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -20,10 +22,12 @@ public class RedBackdrop extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         VisionPortal myVisionPortal;
         Grabber grabber = new Grabber(hardwareMap);
+        Snapper snapper = new Snapper(hardwareMap);
         ThreeRectangleProcessor threeRectangleProcessor;
         threeRectangleProcessor = new ThreeRectangleProcessor();
         VisionPortal.Builder myVisionPortalBuilder;
         TrajectorySequence myTrajectory = null;
+        Intaker intaker = new Intaker(hardwareMap);
 
         // Create a new VisionPortal Builder object.
         myVisionPortalBuilder = new VisionPortal.Builder();
@@ -52,8 +56,15 @@ public class RedBackdrop extends LinearOpMode {
             myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13, -63, Math.toRadians(90)))
                     //changes based off of the the team prop position
                     // x cord = 48-50? for backdrop location test in person
+                    .forward(0.0001)
+                    .addDisplacementMarker(() -> {
+                        snapper.setPowerSnapper(-1);
+                    })
                     .splineTo(new Vector2d(23, -34), Math.toRadians(90))
                     .waitSeconds(2) //dropping purple pixel
+                    .addDisplacementMarker(() -> {
+                        intaker.setIntakePower(1);
+                    })
                     .back(20)
                     .waitSeconds(1)
                     .splineToLinearHeading(new Pose2d(48, -42, Math.toRadians(180)), Math.toRadians(0))
@@ -62,6 +73,15 @@ public class RedBackdrop extends LinearOpMode {
                     .addDisplacementMarker(() -> {
                         grabber.openServo(1);
                     })
+                    .forward(0.01)
+                    .addDisplacementMarker(() -> {
+                        snapper.setPowerSnapper(0);
+                    })
+                    .waitSeconds(0.1)
+                    .addDisplacementMarker(() -> {
+                        intaker.setIntakePower(0);
+                    })
+                    .forward(0.01)
                     .waitSeconds(1)
                     .forward(4)
                     .splineTo(new Vector2d(40, -60), Math.toRadians(0))
@@ -71,11 +91,20 @@ public class RedBackdrop extends LinearOpMode {
             //left trajectory
 
             myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13, -63, Math.toRadians(90)))
-
+                    .forward(0.0001)
+                    .addDisplacementMarker(() -> {
+                        snapper.setPowerSnapper(-1);
+                    })
                     .splineTo(new Vector2d(13, -34), Math.toRadians(90))
                     .waitSeconds(1)
                     .splineTo(new Vector2d(2, -34), Math.toRadians(180))
-
+                    .waitSeconds(0.2)
+                    .addDisplacementMarker(() -> {
+                        snapper.setPowerSnapper(-1);
+                    })
+                    .addDisplacementMarker(() -> {
+                        intaker.setIntakePower(0.3);
+                    })
                     .waitSeconds(2) //dropping purple pixel
                     .back(10)
                     .splineTo(new Vector2d(13, -63), Math.toRadians(-90))
@@ -94,14 +123,29 @@ public class RedBackdrop extends LinearOpMode {
         } else if (selection == ThreeRectangleProcessor.Selected.MIDDLE || selection == ThreeRectangleProcessor.Selected.NONE) {
             //middle trajectory
             myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13,-63, Math.toRadians(90)))
+                    .forward(0.0001)
+                    .addDisplacementMarker(() -> {
+                        snapper.setPowerSnapper(-1);
+                    })
+                    .waitSeconds(0.1)
                     .forward(37)
-                    .waitSeconds(2)
+                    .addDisplacementMarker(() -> {
+                        intaker.setIntakePower(0.3);
+                    })
+                    .waitSeconds(0.5)
                     .back(19)
                     .waitSeconds(2)
+                    .addDisplacementMarker(() -> {
+                        snapper.setPowerSnapper(0);
+                    })
+                    .addDisplacementMarker(() -> {
+                        intaker.setIntakePower(0);
+                    })
                     //servo
                     .splineToLinearHeading(new Pose2d(48, -32, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
                     .addDisplacementMarker(() -> {
+                        grabber.openServo(1);
                     })
                     .waitSeconds(0.5)
                     .splineTo(new Vector2d(40, -60), Math.toRadians(0))

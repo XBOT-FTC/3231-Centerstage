@@ -52,4 +52,7 @@ public class Intaker {
     public void setStopPower(double stopPower) {
         this.stopPower = stopPower;
     }
+    public void setIntakePower(double power){
+        intaker.setPower(power);
+    }
 }
