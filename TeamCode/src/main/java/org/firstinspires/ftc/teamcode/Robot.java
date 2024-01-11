@@ -12,19 +12,11 @@ public class Robot extends LinearOpMode {
         //DRIVE SETUPS
         MecanumDrive drive = new MecanumDrive(hardwareMap);
 
-        //GRABBER SETUPS
-//        Grabber grabber = new Grabber(hardwareMap);
-//        grabber.setGrabPosition(1.0, 0.0);
+
+        Grabber grabber = new Grabber(hardwareMap);
+        grabber.setGrabPosition(1.0, 0.0);
 
         DroneShooter droneShooter = new DroneShooter(hardwareMap, Servo.Direction.FORWARD, 0.7, 0.1);
-
-        //LINEAR SLIDE SETUPS
-//        LinearSlide linearSlide = new LinearSlide(hardwareMap);
-//        linearSlide.setMaxPosition(6400);
-//        linearSlide.setMinPosition(0);
-//        linearSlide.setUpTicks(150);
-//        linearSlide.setDownTicks(150);
-//        linearSlide.setLinearPower(0.6);
 
         //HANGER SETUPS
         Hanger hanger = new Hanger(hardwareMap);
@@ -47,7 +39,7 @@ public class Robot extends LinearOpMode {
 
         while(opModeIsActive()) {
             drive.drive(gamepad1, telemetry);
-//            grabber.grab(gamepad2, telemetry);
+            grabber.grab(gamepad1, telemetry);
             intaker.moveIntake(gamepad2, telemetry);
             droneShooter.shootingControls(gamepad2, telemetry);
             hanger.moveHanger(gamepad2, telemetry);
