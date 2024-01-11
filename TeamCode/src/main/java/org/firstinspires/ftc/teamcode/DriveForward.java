@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
+@Disabled
 @Autonomous(name = "StraightPark", group="Test")
 public class DriveForward extends LinearOpMode {
 
@@ -47,7 +48,7 @@ public class DriveForward extends LinearOpMode {
 
         //DRIVE SETUPS
         MecanumDrive drive = new MecanumDrive(hardwareMap);
-        drive.setSpeedChange(0.25);
+       // drive.setSpeedChange(0.25);
         //GRABBER SETUPS
         Grabber grabber = new Grabber(hardwareMap);
         grabber.setPosition(0.0, 1);

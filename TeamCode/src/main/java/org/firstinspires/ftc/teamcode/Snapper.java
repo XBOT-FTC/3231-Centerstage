@@ -31,11 +31,12 @@ public class Snapper {
                 snapper.setPower(-1.0);
             } else {
                 snapper.setPower(0);
+            } else {
+                snapper.setPower(0.0);
             }
 
             telemetry.addData("Snapper power:", snapper.getPower());
 
     }
-
 
 }

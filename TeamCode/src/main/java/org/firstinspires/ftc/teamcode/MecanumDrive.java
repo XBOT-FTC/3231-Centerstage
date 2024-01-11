@@ -1,16 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.sax.StartElementListener;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -25,16 +18,12 @@ public class MecanumDrive {
     private double frontRightPower;
     private double backLeftPower;
     private double backRightPower;
-    private double speedChange;
-    private double defaultSpeed = 0.5;
-    private double maxSpeed = 1.0;
-    private double minSpeed = 0.25;
-    private double goalUpSpeed;
-    private double goalDownSpeed;
-    private double ticksPerInch;
 
-    private boolean buttonPressed = false;
+    private boolean aPressed = false;
     private boolean speedMode = false;
+    private double speedConstant;
+
+    private double ticksPerInch;
 
     public MecanumDrive(HardwareMap hardwareMap) throws InterruptedException {
 
@@ -52,6 +41,8 @@ public class MecanumDrive {
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        this.speedConstant = 1;
     }
 
     public void drive(Gamepad gamepad, Telemetry telemetry) {
@@ -78,51 +69,32 @@ public class MecanumDrive {
         backRightPower = y + x - rx;
 
         if (gamepad.a) {
-            if (!buttonPressed) {
-                buttonPressed = true;
+            if (!aPressed) {
+                aPressed = true;
+                speedMode = false;
             }
         } else {
-            if (buttonPressed) {
-                buttonPressed = false;
-                speedMode = !speedMode;
+            if (aPressed) {
+                speedMode = true;
+                aPressed = false;
             }
         }
 
-        // set the servo to move
-        if(speedMode) {
-            frontLeftPower *= 0.25;
-            frontRightPower *= 0.25;
-            backLeftPower *= 0.25;
-            backRightPower *= 0.25;
+        if (speedMode) {
+            speedConstant = 0.3;
+        } else {
+            speedConstant = 1.0;
         }
 
-        frontLeft.setPower(frontLeftPower * 0.45);
-        frontRight.setPower(frontRightPower * 0.45);
-        backLeft.setPower(backLeftPower * 0.45);
-        backRight.setPower(backRightPower * 0.45);
-
-
-
-//        if (gamepad.y) {
-//            verticalMovement(1000, 1.0, telemetry);
-//        }
-//
-//        if (gamepad.a) {
-//            verticalMovement(-1000, 1.0, telemetry);
-//        }
-//
-//        if (gamepad.x) {
-//            horizontalMovement("LEFT", 1000, telemetry, 1.0);
-//        }
-//
-//        if (gamepad.b) {
-//            horizontalMovement("RIGHT", 1000, telemetry, 1.0);
-//        }
-
+        frontLeft.setPower(frontLeftPower * speedConstant);
+        frontRight.setPower(frontRightPower * speedConstant);
+        backLeft.setPower(backLeftPower * speedConstant);
+        backRight.setPower(backRightPower * speedConstant);
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "frontleft (%.2f), frontright (%.2f), backleft (%.2f), backright (%.2f)", frontLeftPower, frontRightPower, backLeftPower, backRightPower);
+        telemetry.addData("Speed Mode", speedMode);
     }
     public void determineCommand(String command, double speed, int ticks, Telemetry telemetry) {
         //FORWARD
@@ -276,10 +248,5 @@ public class MecanumDrive {
         while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
             telemetry.addLine("Motors are currently strafing right!");
         }
-    }
-
-
-    public void setSpeedChange(double speedChange) {
-        this.speedChange = speedChange;
     }
 }

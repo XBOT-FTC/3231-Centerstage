@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.vision.ThreeRectangleProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
+@Disabled
 @Autonomous(name = "CompAutoParkingRight", group="Test")
 public class CompetitionAuto3231ParkingRight extends LinearOpMode {
 
@@ -52,7 +54,6 @@ public class CompetitionAuto3231ParkingRight extends LinearOpMode {
 
         //DRIVE SETUPS
         MecanumDrive drive = new MecanumDrive(hardwareMap);
-        drive.setSpeedChange(0.25);
 
         //GRABBER SETUPS
         Grabber grabber = new Grabber(hardwareMap);

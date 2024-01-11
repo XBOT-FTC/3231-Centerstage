@@ -15,9 +15,9 @@ import org.opencv.core.Scalar;
 public class ThreeRectangleProcessor implements VisionProcessor {
 
 
-    public Rect rectLeft = new Rect(0, 500, 200, 200);
-    public Rect rectMiddle = new Rect(540, 450, 200, 200);
-    public Rect rectRight = new Rect(1075, 500, 200, 200);
+    public Rect rectLeft = new Rect(0, 400, 200, 200);
+    public Rect rectMiddle = new Rect(540, 400, 200, 200);
+    public Rect rectRight = new Rect(1075, 450, 200, 200);
 
 // this is for when the resolution is 1280 1024
 //    public Rect rectLeft = new Rect(0, 220, 200, 200);

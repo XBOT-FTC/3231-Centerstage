@@ -11,7 +11,6 @@ public class Robot extends LinearOpMode {
 
         //DRIVE SETUPS
         MecanumDrive drive = new MecanumDrive(hardwareMap);
-        drive.setSpeedChange(0.25);
 
 
         Grabber grabber = new Grabber(hardwareMap);
@@ -24,10 +23,9 @@ public class Robot extends LinearOpMode {
         //(537.7 pulses per rotation) * (163.5 mm travel distance) / (8 mm per rotation)
         hanger.setMaxPosition(10000);
         hanger.setMinPosition(0);
-        hanger.setUpTicks(540);
-        hanger.setDownTicks(540);
+        hanger.setUpTicks(200);
+        hanger.setDownTicks(200);
         hanger.setHangerPower(1.0);
-
 
         Intaker intaker = new Intaker(hardwareMap);
         intaker.setSpinPower(0.5);

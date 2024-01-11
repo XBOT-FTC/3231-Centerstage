@@ -51,8 +51,6 @@ public class LinearSlide {
                 linearSlide.setTargetPosition(goalUpPosition);
                 linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 linearSlide.setPower(linearPower);
-
-
         }
         if (gamepad.left_bumper) {
             goalDownPosition = currentFirstPosition - downTicks;
@@ -64,8 +62,12 @@ public class LinearSlide {
             linearSlide.setPower(-linearPower);
 
         }
-        updatedFirstPosition = linearSlide.getCurrentPosition();
-        telemetry.addLine("Current Position for linear slides" + updatedFirstPosition);
+
+        if (Math.abs(linearSlide.getTargetPosition() - linearSlide.getCurrentPosition()) < 25) {
+            linearSlide.setPower(0);
+        }
+        telemetry.addData("Current Position for linear slides", linearSlide.getCurrentPosition());
+        telemetry.addData("Target Position", linearSlide.getTargetPosition());
 
     }
     public void setMaxPosition(int maxPosition) {
