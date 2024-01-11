@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Grabber;
 import org.firstinspires.ftc.teamcode.Intaker;
+import org.firstinspires.ftc.teamcode.Snapper;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.ThreeRectangleProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -24,6 +25,7 @@ public class RedAwayBackdrop extends LinearOpMode {
         VisionPortal myVisionPortal;
         Grabber grabber = new Grabber(hardwareMap);
         Intaker intaker = new Intaker(hardwareMap);
+        Snapper snapper = new Snapper(hardwareMap);
         ThreeRectangleProcessor threeRectangleProcessor;
         threeRectangleProcessor = new ThreeRectangleProcessor();
         VisionPortal.Builder myVisionPortalBuilder;
@@ -53,7 +55,14 @@ public class RedAwayBackdrop extends LinearOpMode {
         if(selection == ThreeRectangleProcessor.Selected.RIGHT) {
             //right trajectory
             myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
-
+                    .forward(0.01)
+                    .addDisplacementMarker(() -> {
+                        snapper.setPowerSnapper(-1);
+                    })
+                    .forward(0.01)
+                    .addDisplacementMarker(() -> {
+                        snapper.setPowerSnapper(0);
+                    })
                     .splineTo(new Vector2d(-28, -34), Math.toRadians(0))
                     .waitSeconds(10)
                     //intaker
