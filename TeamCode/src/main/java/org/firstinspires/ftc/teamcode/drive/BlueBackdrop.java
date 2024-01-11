@@ -46,6 +46,13 @@ public class BlueBackdrop extends LinearOpMode {
         // Create a VisionPortal by calling build()
         myVisionPortal = myVisionPortalBuilder.build();
         ThreeRectangleProcessor.Selected selection = ThreeRectangleProcessor.Selected.NONE;
+        while (!opModeIsActive()) {
+            selection = threeRectangleProcessor.getSelection();
+            telemetry.addLine("NOT started yet.");
+            telemetry.addLine(selection.name());
+            telemetry.addData("Camera state", myVisionPortal.getCameraState());
+            telemetry.update();
+        }
         drive.setPoseEstimate(new Pose2d(13,60,Math.toRadians(270)));
 
         // vision code for if left
