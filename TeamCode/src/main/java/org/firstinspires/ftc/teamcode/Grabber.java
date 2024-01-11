@@ -14,13 +14,12 @@ public class Grabber {
     private double closePosition = 0;
     private boolean grabMode = false;
     //    private boolean grabMode1= false;
-    private boolean bPress;
+    private boolean bPress = false;
 
     public Grabber(HardwareMap hardwareMap) {
         servoGrabber = hardwareMap.get(Servo.class, "servo");
         //servoGrabber.setPosition(openPosition);
         servoGrabber.setDirection(Servo.Direction.FORWARD);
-        this.bPress = false;
     }
 
 
@@ -50,14 +49,6 @@ public class Grabber {
             servoGrabber.setPosition(closePosition);
         }
     }
-
-//      public void setGrabbingForSecondServo() {
-//            if (grabMode1) {
-//                servoGrabber1.setPosition(openPosition);
-//            } else {
-//                servoGrabber1.setPosition(closePosition);
-//            }
-//      }
 
     public void setPosition(double closePosition, double openPosition) {
         this.closePosition = closePosition;
