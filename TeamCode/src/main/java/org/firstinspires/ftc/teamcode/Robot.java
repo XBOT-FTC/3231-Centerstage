@@ -14,7 +14,7 @@ public class Robot extends LinearOpMode {
 
 
         Grabber grabber = new Grabber(hardwareMap);
-        grabber.setGrabPosition(1.0, 0.0);
+        grabber.setGrabPosition(0.675, 0.56);
 
         DroneShooter droneShooter = new DroneShooter(hardwareMap, Servo.Direction.FORWARD, 0.7, 0.1);
 

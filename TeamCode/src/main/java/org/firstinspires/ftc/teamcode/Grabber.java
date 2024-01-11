@@ -20,6 +20,7 @@ public class Grabber {
         servoGrabber = hardwareMap.get(Servo.class, "servo");
         //servoGrabber.setPosition(openPosition);
         servoGrabber.setDirection(Servo.Direction.FORWARD);
+        servoGrabber.setPosition(0.683);
     }
 
 
@@ -39,15 +40,15 @@ public class Grabber {
 
         if (gamepad.left_bumper) {
             if(grabMode) {
-                this.openPosition += 0.0025;
+                this.openPosition += 0.001;
             } else {
-                this.closePosition += 0.0025;
+                this.closePosition += 0.001;
             }
         } else if (gamepad.right_bumper) {
             if(grabMode) {
-                this.openPosition -= 0.0025;
+                this.openPosition -= 0.001;
             } else {
-                this.closePosition -= 0.0025;
+                this.closePosition -= 0.001;
             }
         }
         this.setGrabbingForFirstServo();

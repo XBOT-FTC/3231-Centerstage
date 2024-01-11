@@ -15,31 +15,29 @@ public class MeepMeepSample {
                 //blue backdrop left
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(13, -63, Math.toRadians(90)))
+                        drive.trajectorySequenceBuilder(new Pose2d(13,-63, Math.toRadians(90)))
                                 .forward(0.0001)
                                 .addDisplacementMarker(() -> {
                                 })
-                                .splineTo(new Vector2d(13, -34), Math.toRadians(90))
-                                .waitSeconds(1)
-                                .splineTo(new Vector2d(2, -34), Math.toRadians(180))
-                                .waitSeconds(0.2)
-                                .addDisplacementMarker(() -> {
-                                })
-                                .addDisplacementMarker(() -> {
-                                })
-                                .waitSeconds(2) //dropping purple pixel
-                                .back(10)
-                                .splineTo(new Vector2d(13, -63), Math.toRadians(-90))
-                                .splineToLinearHeading(new Pose2d(48, -29, Math.toRadians(180)), Math.toRadians(0))
-                                //placing
                                 .waitSeconds(0.5)
                                 .addDisplacementMarker(() -> {
                                 })
+                                .waitSeconds(0.1)
+                                .forward(33)
+                                .waitSeconds(0.5)
+                                .back(19)
                                 .waitSeconds(2)
-                                //parking
-                                .strafeLeft(30)
-                                .waitSeconds(.4)
-                                .back(9)
+
+                                .addDisplacementMarker(() -> {
+                                })
+                                //servo
+                                .splineToLinearHeading(new Pose2d(48, -32, Math.toRadians(180)), Math.toRadians(0))
+                                .waitSeconds(0.5)
+                                .addDisplacementMarker(() -> {
+                                })
+                                .waitSeconds(0.5)
+                                .splineTo(new Vector2d(40, -60), Math.toRadians(0))
+                                .splineTo(new Vector2d(60, -60), Math.toRadians(0))
                                 .build()
                 );
 

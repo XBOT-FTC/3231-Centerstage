@@ -61,27 +61,20 @@ public class RedBackdrop extends LinearOpMode {
                         snapper.setPowerSnapper(-1);
                     })
                     .splineTo(new Vector2d(23, -34), Math.toRadians(90))
-                    .waitSeconds(2) //dropping purple pixel
                     .addDisplacementMarker(() -> {
-                        intaker.setIntakePower(1);
+                        snapper.setPowerSnapper(0);
                     })
+                    .waitSeconds(2) //dropping purple pixel
                     .back(20)
                     .waitSeconds(1)
                     .splineToLinearHeading(new Pose2d(48, -42, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
                     //servo drops yellow pixel
                     .addDisplacementMarker(() -> {
-                        grabber.openServo(1);
+                        grabber.openServo(0.56);
                     })
-                    .forward(0.01)
-                    .addDisplacementMarker(() -> {
-                        snapper.setPowerSnapper(0);
-                    })
-                    .waitSeconds(0.1)
-                    .addDisplacementMarker(() -> {
-                        intaker.setIntakePower(0);
-                    })
-                    .forward(0.01)
+                    .waitSeconds(0.5)
+                    .forward(1.4)
                     .waitSeconds(1)
                     .forward(4)
                     .splineTo(new Vector2d(40, -60), Math.toRadians(0))
@@ -102,13 +95,10 @@ public class RedBackdrop extends LinearOpMode {
                     .addDisplacementMarker(() -> {
                         snapper.setPowerSnapper(-1);
                     })
-                    .addDisplacementMarker(() -> {
-                        intaker.setIntakePower(0.3);
-                    })
                     .waitSeconds(2) //dropping purple pixel
                     .back(10)
                     .splineTo(new Vector2d(13, -63), Math.toRadians(-90))
-                    .splineToLinearHeading(new Pose2d(48, -29, Math.toRadians(180)), Math.toRadians(0))
+                    .splineToLinearHeading(new Pose2d(48, -32, Math.toRadians(180)), Math.toRadians(0))
                     //placing
                     .waitSeconds(0.5)
                     .addDisplacementMarker(() -> {
@@ -127,29 +117,28 @@ public class RedBackdrop extends LinearOpMode {
                     .addDisplacementMarker(() -> {
                         snapper.setPowerSnapper(-1);
                     })
-                    .waitSeconds(0.1)
-                    .forward(37)
-                    .addDisplacementMarker(() -> {
-                        intaker.setIntakePower(0.3);
-                    })
                     .waitSeconds(0.5)
-                    .back(19)
-                    .waitSeconds(2)
                     .addDisplacementMarker(() -> {
                         snapper.setPowerSnapper(0);
                     })
+                    .waitSeconds(0.1)
+                    .forward(33)
+                    .waitSeconds(0.5)
+                    .back(19)
+                    .waitSeconds(2)
+
                     .addDisplacementMarker(() -> {
                         intaker.setIntakePower(0);
                     })
                     //servo
-                    .splineToLinearHeading(new Pose2d(48, -32, Math.toRadians(180)), Math.toRadians(0))
+                    .splineToLinearHeading(new Pose2d(54, -31, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
                     .addDisplacementMarker(() -> {
-                        grabber.openServo(1);
+                        grabber.openServo(0.555);
                     })
-                    .waitSeconds(0.5)
-                    .splineTo(new Vector2d(40, -60), Math.toRadians(0))
-                    .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+//                    .waitSeconds(0.5)
+//                    .splineTo(new Vector2d(40, -61), Math.toRadians(0))
+//                    .splineTo(new Vector2d(60, -61), Math.toRadians(0))
                     .build();
 
         }

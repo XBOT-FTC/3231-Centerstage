@@ -24,16 +24,18 @@ public class Snapper {
     }
 
     public void snapperTrigger(Gamepad gamepad, Telemetry telemetry) {
-            if (gamepad.right_bumper) {
-                snapper.setPower(1.0);
-            } else if (gamepad.left_bumper) {
-                snapper.setPower(-1.0);
-            } else {
-                snapper.setPower(0.0);
-            }
+        if (gamepad.right_bumper) {
+            snapper.setPower(1.0);
+        } else if (gamepad.left_bumper) {
+            snapper.setPower(-1.0);
+        } else {
+            snapper.setPower(0.0);
+        }
 
-            telemetry.addData("Snapper power:", snapper.getPower());
-
+        telemetry.addData("Snapper power:", snapper.getPower());
+    }
+    public void setPowerSnapper(double power){
+        snapper.setPower(power);
+        }
     }
 
-}
