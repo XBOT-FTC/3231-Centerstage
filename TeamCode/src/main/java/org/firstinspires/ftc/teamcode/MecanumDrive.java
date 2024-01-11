@@ -71,7 +71,6 @@ public class MecanumDrive {
         if (gamepad.a) {
             if (!aPressed) {
                 aPressed = true;
-                speedMode = false;
             }
         } else {
             if (aPressed) {
