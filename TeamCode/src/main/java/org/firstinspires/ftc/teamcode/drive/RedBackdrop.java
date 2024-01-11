@@ -69,6 +69,7 @@ public class RedBackdrop extends LinearOpMode {
                     .waitSeconds(1)
                     .splineToLinearHeading(new Pose2d(48, -42, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
+                    .forward(0.01)
                     //servo drops yellow pixel
                     .addDisplacementMarker(() -> {
                         grabber.openServo(0.56);
@@ -133,12 +134,13 @@ public class RedBackdrop extends LinearOpMode {
                     //servo
                     .splineToLinearHeading(new Pose2d(54, -31, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
+                    .forward(0.01)
                     .addDisplacementMarker(() -> {
                         grabber.openServo(0.555);
                     })
-//                    .waitSeconds(0.5)
-//                    .splineTo(new Vector2d(40, -61), Math.toRadians(0))
-//                    .splineTo(new Vector2d(60, -61), Math.toRadians(0))
+                    .waitSeconds(0.5)
+                    .splineTo(new Vector2d(40, -61), Math.toRadians(0))
+                    .splineTo(new Vector2d(60, -61), Math.toRadians(0))
                     .build();
 
         }
