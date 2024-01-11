@@ -36,6 +36,20 @@ public class Grabber {
                 grabMode = !grabMode;
             }
         }
+
+        if (gamepad.left_bumper) {
+            if(grabMode) {
+                this.openPosition += 0.0025;
+            } else {
+                this.closePosition += 0.0025;
+            }
+        } else if (gamepad.right_bumper) {
+            if(grabMode) {
+                this.openPosition -= 0.0025;
+            } else {
+                this.closePosition -= 0.0025;
+            }
+        }
         this.setGrabbingForFirstServo();
         // set the servo to move
         double servoPosition = servoGrabber.getPosition();

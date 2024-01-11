@@ -75,8 +75,8 @@ public class MecanumDrive {
             }
         } else {
             if (aPressed) {
-                speedMode = true;
                 aPressed = false;
+                speedMode = !speedMode;
             }
         }
 
