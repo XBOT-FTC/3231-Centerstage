@@ -15,29 +15,34 @@ public class MeepMeepSample {
                 //blue backdrop left
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(13,-63, Math.toRadians(90)))
+                        drive.trajectorySequenceBuilder(new Pose2d(13, 60, Math.toRadians(270)))
+                                //changes based off of the the team prop position
+                                // x cord = 48-50? for backdrop location test in person
                                 .forward(0.0001)
                                 .addDisplacementMarker(() -> {
                                 })
                                 .waitSeconds(0.5)
-                                .addDisplacementMarker(() -> {
+                                .addTemporalMarker(2,() -> {
                                 })
-                                .waitSeconds(0.1)
-                                .forward(33)
-                                .waitSeconds(0.5)
+                                .splineTo(new Vector2d(24, 34), Math.toRadians(270))
+                                .waitSeconds(2) //dropping purple pixel
                                 .back(19)
-                                .waitSeconds(2)
-
-                                .addDisplacementMarker(() -> {
-                                })
-                                //servo
-                                .splineToLinearHeading(new Pose2d(48, -32, Math.toRadians(180)), Math.toRadians(0))
+                                .waitSeconds(1)
+                                .splineToLinearHeading(new Pose2d(56, 39, Math.toRadians(180)), Math.toRadians(0))
                                 .waitSeconds(0.5)
-                                .addDisplacementMarker(() -> {
+                                .forward(0.01)
+                                .waitSeconds(1)
+                                //servo drops yellow pixel
+                                .addTemporalMarker(10.5, () -> {
                                 })
-                                .waitSeconds(0.5)
-                                .splineTo(new Vector2d(40, -60), Math.toRadians(0))
-                                .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                                .waitSeconds(1.5)
+                                .forward(1.4)
+                                .waitSeconds(1)
+                                .forward(4)
+                                .splineTo(new Vector2d(40, 59), Math.toRadians(0))
+                                .splineTo(new Vector2d(59, 59), Math.toRadians(0))
+                                .addDisplacementMarker( () -> {
+                                })
                                 .build()
                 );
 

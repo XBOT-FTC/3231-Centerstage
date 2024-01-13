@@ -68,26 +68,31 @@ public class RedBackdrop extends LinearOpMode {
                     .addDisplacementMarker(() -> {
                         snapper.setPowerSnapper(-1);
                     })
-                    .splineTo(new Vector2d(23, -34), Math.toRadians(90))
-                    .addDisplacementMarker(() -> {
+                    .waitSeconds(0.5)
+                    .addTemporalMarker(2,() -> {
                         snapper.setPowerSnapper(0);
                     })
+                    .splineTo(new Vector2d(24, -34), Math.toRadians(90))
                     .waitSeconds(2) //dropping purple pixel
-                    .back(20)
+                    .back(19)
                     .waitSeconds(1)
-                    .splineToLinearHeading(new Pose2d(48, -42, Math.toRadians(180)), Math.toRadians(0))
+                    .splineToLinearHeading(new Pose2d(56, -39, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
                     .forward(0.01)
+                    .waitSeconds(1)
                     //servo drops yellow pixel
-                    .addDisplacementMarker(() -> {
+                    .addTemporalMarker(10.5, () -> {
                         grabber.openServo(0.56);
                     })
-                    .waitSeconds(0.5)
+                    .waitSeconds(1.5)
                     .forward(1.4)
                     .waitSeconds(1)
                     .forward(4)
-                    .splineTo(new Vector2d(40, -60), Math.toRadians(0))
-                    .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                    .splineTo(new Vector2d(40, -59), Math.toRadians(0))
+                    .splineTo(new Vector2d(59, -59), Math.toRadians(0))
+                    .addDisplacementMarker( () -> {
+                        grabber.openServo(0.683);
+                    })
                     .build();
         } else if (selection == ThreeRectangleProcessor.Selected.LEFT) {
             //left trajectory
@@ -97,27 +102,33 @@ public class RedBackdrop extends LinearOpMode {
                     .addDisplacementMarker(() -> {
                         snapper.setPowerSnapper(-1);
                     })
-                    .splineTo(new Vector2d(13, -34), Math.toRadians(90))
-                    .waitSeconds(1)
-                    .splineTo(new Vector2d(2, -34), Math.toRadians(180))
-                    .waitSeconds(0.2)
-                    .addDisplacementMarker(() -> {
-                        snapper.setPowerSnapper(-1);
+                    .waitSeconds(0.5)
+                    .addTemporalMarker(2,() -> {
+                        snapper.setPowerSnapper(0);
                     })
+                    .splineTo(new Vector2d(13, -37), Math.toRadians(90))
+                    .waitSeconds(1)
+                    .splineTo(new Vector2d(5, -35), Math.toRadians(180))
+                    .waitSeconds(0.2)
                     .waitSeconds(2) //dropping purple pixel
                     .back(10)
-                    .splineTo(new Vector2d(13, -63), Math.toRadians(-90))
-                    .splineToLinearHeading(new Pose2d(48, -32, Math.toRadians(180)), Math.toRadians(0))
+                    .splineTo(new Vector2d(13, -60), Math.toRadians(-90))
+                    .splineToLinearHeading(new Pose2d(54.25, -24.75, Math.toRadians(180)), Math.toRadians(0))
                     //placing
                     .waitSeconds(0.5)
-                    .addDisplacementMarker(() -> {
-                        grabber.openServo(1);
+                    .addTemporalMarker(13.5,() -> {
+                        grabber.openServo(0.56);
                     })
-                    .waitSeconds(2)
+                    .waitSeconds(3.5)
+                    .forward(3)
+                    .waitSeconds(.5)
                     //parking
-                    .strafeLeft(30)
+                    .strafeLeft(33.25)
                     .waitSeconds(.4)
-                    .back(9)
+                    .back(11.5)
+                    .addDisplacementMarker(() -> {
+                        grabber.openServo(0.683);
+                    })
                     .build();
         } else if (selection == ThreeRectangleProcessor.Selected.MIDDLE || selection == ThreeRectangleProcessor.Selected.NONE) {
             //middle trajectory
@@ -127,15 +138,14 @@ public class RedBackdrop extends LinearOpMode {
                         snapper.setPowerSnapper(-1);
                     })
                     .waitSeconds(0.5)
-                    .addDisplacementMarker(() -> {
+                    .addTemporalMarker(2,() -> {
                         snapper.setPowerSnapper(0);
                     })
                     .waitSeconds(0.1)
-                    .forward(33)
+                    .forward(35.4)
                     .waitSeconds(0.5)
                     .back(19)
                     .waitSeconds(2)
-
                     .addDisplacementMarker(() -> {
                         intaker.setIntakePower(0);
                     })
@@ -143,12 +153,19 @@ public class RedBackdrop extends LinearOpMode {
                     .splineToLinearHeading(new Pose2d(54, -31, Math.toRadians(180)), Math.toRadians(0))
                     .waitSeconds(0.5)
                     .forward(0.01)
-                    .addDisplacementMarker(() -> {
-                        grabber.openServo(0.555);
+                    .waitSeconds(1.5)
+                    //servo drops yellow pixel
+                    .addTemporalMarker(10, () -> {
+                        grabber.openServo(0.54);
                     })
-                    .waitSeconds(0.5)
-                    .splineTo(new Vector2d(40, -61), Math.toRadians(0))
-                    .splineTo(new Vector2d(60, -61), Math.toRadians(0))
+                    .waitSeconds(1.75)
+                    .forward(1.4)
+                    .forward(0.01)
+                    .splineTo(new Vector2d(40, -60), Math.toRadians(0))
+                    .splineTo(new Vector2d(59, -60), Math.toRadians(0))
+                    .addDisplacementMarker( () -> {
+                        grabber.openServo(0.683);
+                    })
                     .build();
 
         }

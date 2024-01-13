@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Grabber;
+import org.firstinspires.ftc.teamcode.Intaker;
+import org.firstinspires.ftc.teamcode.Snapper;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.ThreeRectangleProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -24,7 +26,9 @@ public class BlueBackdrop extends LinearOpMode {
         Grabber grabber = new Grabber(hardwareMap);
         ThreeRectangleProcessor threeRectangleProcessor;
         threeRectangleProcessor = new ThreeRectangleProcessor();
+        Intaker intaker = new Intaker(hardwareMap);
         VisionPortal.Builder myVisionPortalBuilder;
+        Snapper snapper = new Snapper(hardwareMap);
         TrajectorySequence myTrajectory = null;
 
         // Create a new VisionPortal Builder object.
@@ -53,72 +57,130 @@ public class BlueBackdrop extends LinearOpMode {
             telemetry.addData("Camera state", myVisionPortal.getCameraState());
             telemetry.update();
         }
-        drive.setPoseEstimate(new Pose2d(13,60,Math.toRadians(270)));
-
+        drive.setPoseEstimate(new Pose2d(13,63,Math.toRadians(270)));
+// - 3 to y coord?
         // vision code for if left
         // 0 degrees = facing backdrop
         // 90 degrees turn left
         // give the trajectory sequence so u can run it when the if statements are amde ex. myTrajectory = andafnwn -> drive.followTrajectorySequence(andafnwn);
         //left trajectory
-        if(selection == ThreeRectangleProcessor.Selected.LEFT) {
-            myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13, 60, Math.toRadians(270)))
-                    .splineTo(new Vector2d(22, 31), Math.toRadians(270))
-                    .waitSeconds(0.4)
-                    //        turn on intaker
-                    .back(30)
-                    .waitSeconds(.03)
-                    .splineToSplineHeading(new Pose2d(51, 42, Math.toRadians(180)), Math.toRadians(0))
-                    .waitSeconds(0.5)
+        if (selection == ThreeRectangleProcessor.Selected.RIGHT) {
+            //if right vision code
+            myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13, 63, Math.toRadians(270)))
+                    .forward(0.0001)
                     .addDisplacementMarker(() -> {
-                        grabber.openServo(1);
+                        snapper.setPowerSnapper(-1);
                     })
                     .waitSeconds(0.5)
-                    //servo
-                    .forward(7)
-                    .waitSeconds(0.4)
-                    .splineTo(new Vector2d(53, 57), Math.toRadians(180))
+                    .addTemporalMarker(2,() -> {
+                        snapper.setPowerSnapper(0);
+                    })
+                    .splineTo(new Vector2d(13, 37), Math.toRadians(270))
+                    .waitSeconds(1)
+                    .splineTo(new Vector2d(5, 35), Math.toRadians(180))
+                    .waitSeconds(0.2)
+                    .waitSeconds(2) //dropping purple pixel
+                    .back(10)
+                    .splineTo(new Vector2d(13, 60), Math.toRadians(90))
+                    .splineToLinearHeading(new Pose2d(54.25, 24.75, Math.toRadians(180)), Math.toRadians(0))
+                    //placing
+                    // previously 27.75 may need to switch
+                    .waitSeconds(0.5)
+                    .addTemporalMarker(13.5,() -> {
+                        grabber.openServo(0.56);
+                    })
+                    .waitSeconds(3.5)
+                    .forward(3)
+                    .waitSeconds(.5)
+                    //parking
+                    .strafeRight(33.25)
+                    .waitSeconds(.4)
+                    .back(11.5)
+                    .addDisplacementMarker(() -> {
+                        grabber.openServo(0.683);
+                    })
                     .build();
-        }else if(selection == ThreeRectangleProcessor.Selected.MIDDLE || selection == ThreeRectangleProcessor.Selected.NONE) {
+        } else if (selection == ThreeRectangleProcessor.Selected.LEFT) {
+            //left trajectory
+
+            myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13, 63, Math.toRadians(270)))
+                    //changes based off of the the team prop position
+                    // x cord = 48-50? for backdrop location test in person
+                    .forward(0.0001)
+                    .addDisplacementMarker(() -> {
+                        snapper.setPowerSnapper(-1);
+                    })
+                    .waitSeconds(0.5)
+                    .addTemporalMarker(2,() -> {
+                        snapper.setPowerSnapper(0);
+                    })
+                    .splineTo(new Vector2d(24, 34), Math.toRadians(270))
+                    .waitSeconds(2) //dropping purple pixel
+                    .back(19)
+                    .waitSeconds(1)
+                    .splineToLinearHeading(new Pose2d(56, 40, Math.toRadians(180)), Math.toRadians(0))
+                    .waitSeconds(0.5)
+                    .forward(0.01)
+                    .waitSeconds(1)
+                    //servo drops yellow pixel
+                    .addTemporalMarker(10.5, () -> {
+                        grabber.openServo(0.56);
+                    })
+                    .waitSeconds(1.5)
+                    .forward(1.4)
+                    .waitSeconds(1)
+                    .forward(4)
+                    .splineTo(new Vector2d(40, 58), Math.toRadians(0))
+                    .splineTo(new Vector2d(59, 58), Math.toRadians(0))
+                    .addDisplacementMarker( () -> {
+                        grabber.openServo(0.683);
+                    })
+                    .build();
+        } else if (selection == ThreeRectangleProcessor.Selected.MIDDLE || selection == ThreeRectangleProcessor.Selected.NONE) {
             //middle trajectory
-            myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13, 60, Math.toRadians(270)))
-                    .forward(35)
-                    .waitSeconds(0.4)
-                    // turn on intaker
-                    .back(30)
-                    .waitSeconds(.03)
-                    .splineToSplineHeading(new Pose2d(51, 36, Math.toRadians(180)), Math.toRadians(0))
-                    .waitSeconds(0.5)
-                    //servo
+            myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13,63, Math.toRadians(270)))
+                    .forward(0.0001)
                     .addDisplacementMarker(() -> {
-                        grabber.openServo(1);
+                        snapper.setPowerSnapper(-1);
                     })
                     .waitSeconds(0.5)
-                    .forward(7)
-                    .waitSeconds(0.4)
-                    .splineTo(new Vector2d(53, 57), Math.toRadians(180))
-                    .build();
-        }else if (selection == ThreeRectangleProcessor.Selected.RIGHT || selection == ThreeRectangleProcessor.Selected.NONE) {
-            //right trajectory
-            myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13, 60, Math.toRadians(270)))
-                    .splineTo(new Vector2d(8, 34), Math.toRadians(180))
-                    .waitSeconds(0.4)
-                    // turn on intaker
-                    .back(30)
-                    .waitSeconds(.03)
-                    .splineToSplineHeading(new Pose2d(51, 36, Math.toRadians(180)), Math.toRadians(0))
-                    .waitSeconds(0.5)
-                    //servo
-                    .addDisplacementMarker(() -> {
-                        grabber.openServo(1);
+                    .addTemporalMarker(2,() -> {
+                        snapper.setPowerSnapper(0);
                     })
+                    .waitSeconds(0.1)
+                    .forward(35.4)
                     .waitSeconds(0.5)
-                    .forward(7)
-                    .waitSeconds(0.4)
-                    .splineTo(new Vector2d(53, 57), Math.toRadians(180))
+                    .back(19)
+                    .waitSeconds(2)
+                    .addDisplacementMarker(() -> {
+                        intaker.setIntakePower(0);
+                    })
+                    //servo
+                    .splineToLinearHeading(new Pose2d(54, 31, Math.toRadians(180)), Math.toRadians(0))
+                    .waitSeconds(0.5)
+                    .forward(0.01)
+                    .waitSeconds(1.5)
+                    //servo drops yellow pixel
+                    .addTemporalMarker(10, () -> {
+                        grabber.openServo(0.54);
+                    })
+                    .waitSeconds(1.75)
+                    .forward(1.4)
+                    .forward(0.01)
+                    .splineTo(new Vector2d(40, 59), Math.toRadians(0))
+                    .splineTo(new Vector2d(58.5, 59), Math.toRadians(0))
+                    .addDisplacementMarker( () -> {
+                        grabber.openServo(0.683);
+                    })
                     .build();
+
         }
         waitForStart();
-        if(isStopRequested()) return;
+
+        if (isStopRequested()) return;
+
         drive.followTrajectorySequence(myTrajectory);
+
     }
+
 }
