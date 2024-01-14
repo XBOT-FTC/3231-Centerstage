@@ -20,7 +20,7 @@ public class Grabber {
         servoGrabber = hardwareMap.get(Servo.class, "servo");
         //servoGrabber.setPosition(openPosition);
         servoGrabber.setDirection(Servo.Direction.FORWARD);
-        servoGrabber.setPosition(0.683);
+        servoGrabber.setPosition(0.696);
     }
 
 
@@ -37,20 +37,20 @@ public class Grabber {
                 grabMode = !grabMode;
             }
         }
-
-        if (gamepad.left_bumper) {
-            if(grabMode) {
-                this.openPosition += 0.001;
-            } else {
-                this.closePosition += 0.001;
-            }
-        } else if (gamepad.right_bumper) {
-            if(grabMode) {
-                this.openPosition -= 0.001;
-            } else {
-                this.closePosition -= 0.001;
-            }
-        }
+//        FOR TUNING GRABBER
+//        if (gamepad.left_bumper) {
+//            if(grabMode) {
+//                this.openPosition += 0.0003;
+//            } else {
+//                this.closePosition += 0.0003;
+//            }
+//        } else if (gamepad.right_bumper) {
+//            if(grabMode) {
+//                this.openPosition -= 0.0003;
+//            } else {
+//                this.closePosition -= 0.0003;
+//            }
+//        }
         this.setGrabbingForFirstServo();
         // set the servo to move
         double servoPosition = servoGrabber.getPosition();

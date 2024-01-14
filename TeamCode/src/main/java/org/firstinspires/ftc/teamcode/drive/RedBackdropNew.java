@@ -2,34 +2,32 @@ package org.firstinspires.ftc.teamcode.drive;
 
 import android.util.Size;
 
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Grabber;
 import org.firstinspires.ftc.teamcode.Intaker;
 import org.firstinspires.ftc.teamcode.Snapper;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.ThreeRectangleProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
-@Autonomous(name="BlueAwayBackdrop", group = "LinearOpMode")
-public class BlueAwayBackdrop extends LinearOpMode {
+@Autonomous(name="RedCloseToBackdrop", group = "LinearOpMode")
+public class RedBackdropNew extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         VisionPortal myVisionPortal;
         Grabber grabber = new Grabber(hardwareMap);
-        Intaker intaker = new Intaker(hardwareMap);
         Snapper snapper = new Snapper(hardwareMap);
         ThreeRectangleProcessor threeRectangleProcessor;
         threeRectangleProcessor = new ThreeRectangleProcessor();
         VisionPortal.Builder myVisionPortalBuilder;
         TrajectorySequence myTrajectory = null;
+        Intaker intaker = new Intaker(hardwareMap);
 
         // Create a new VisionPortal Builder object.
         myVisionPortalBuilder = new VisionPortal.Builder();
@@ -59,11 +57,10 @@ public class BlueAwayBackdrop extends LinearOpMode {
             telemetry.update();
         }
 
-     //   drive.setPoseEstimate(new Pose2d(-36,-60, Math.toRadians(90)));
-        drive.setPoseEstimate(new Pose2d(13, -63, Math.toRadians(90)));
 
-        if(selection == ThreeRectangleProcessor.Selected.RIGHT) {
-            //right trajectory
+        drive.setPoseEstimate(new Pose2d(13, -63, Math.toRadians(90)));
+        if (selection == ThreeRectangleProcessor.Selected.RIGHT) {
+            //if right vision code
             myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13, -63, Math.toRadians(90)))
                     //changes based off of the the team prop position
                     // x cord = 48-50? for backdrop location test in person
@@ -79,40 +76,27 @@ public class BlueAwayBackdrop extends LinearOpMode {
                     .waitSeconds(2) //dropping purple pixel
                     .back(19)
                     .waitSeconds(1)
-//            myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
-//                    .forward(0.01)
-//                    .addDisplacementMarker(() -> {
-//                        snapper.setPowerSnapper(-1);
-//                    })
-//                    .forward(0.01)
-//                    .addDisplacementMarker(() -> {
-//                        snapper.setPowerSnapper(0);
-//                    })
-//                    .splineTo(new Vector2d(-28, -34), Math.toRadians(0))
-//                    .waitSeconds(10)
-//                    //intaker
-//
-//                    .addDisplacementMarker(() -> {
-//                 //   intaker.setPower(spinPower);
-//                    })
-//                    .back(20)
-//                    .waitSeconds(0.5)
-//                    .strafeRight(24)
-//                    .waitSeconds(0.5)
-//                    .forward(40)
-//                    .splineToSplineHeading(new Pose2d(51, -42, Math.toRadians(180)), Math.toRadians(0))
-//                    .waitSeconds(0.5)
-//                    //servo
-//                    .addDisplacementMarker(() -> {
-//                        grabber.openServo(1);
-//                    })
-//                    .waitSeconds(0.5)
-//                    .forward(20)
-//                    .splineTo(new Vector2d(40, -60), Math.toRadians(0))
-//                    .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                    .splineToLinearHeading(new Pose2d(56, -39, Math.toRadians(180)), Math.toRadians(0))
+                    .waitSeconds(0.5)
+                    .forward(0.01)
+                    .waitSeconds(1)
+                    //servo drops yellow pixel
+                    .addTemporalMarker(10.5, () -> {
+                        grabber.openServo(0.56);
+                    })
+                    .waitSeconds(1.5)
+                    .forward(1.4)
+                    .waitSeconds(1)
+                    .forward(4)
+                    .splineTo(new Vector2d(40, -59), Math.toRadians(0))
+                    .splineTo(new Vector2d(59, -59), Math.toRadians(0))
+                    .addDisplacementMarker( () -> {
+                        grabber.openServo(0.683);
+                    })
                     .build();
-        }else if (selection == ThreeRectangleProcessor.Selected.LEFT) {
+        } else if (selection == ThreeRectangleProcessor.Selected.LEFT) {
             //left trajectory
+
             myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13, -63, Math.toRadians(90)))
                     .forward(0.0001)
                     .addDisplacementMarker(() -> {
@@ -128,36 +112,27 @@ public class BlueAwayBackdrop extends LinearOpMode {
                     .waitSeconds(0.2)
                     .waitSeconds(2) //dropping purple pixel
                     .back(10)
-//            myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
-//                    .forward(30)
-//                    .waitSeconds(0.3)
-//                    .splineTo(new Vector2d(-47, -32), Math.toRadians(180))
-//                    //intaker
-//                    .waitSeconds(0.3)
-//                    .back(13)
-//                    .waitSeconds(0.3)
-//                    .strafeLeft(4)
-//                    .waitSeconds(0.3)
-//                    .turn(Math.toRadians(180))
-//                    .waitSeconds(0.3)
-//                    .strafeRight(24)
-//                    .waitSeconds(10)
-//                    .forward(37)
-//                    .waitSeconds(0.5)
-//                    .splineToSplineHeading(new Pose2d(51, -42, Math.toRadians(180)), Math.toRadians(0))
-//                    .waitSeconds(0.5)
-//                    .addDisplacementMarker(() -> {
-//                        grabber.openServo(1);
-//                    })
-//                    .waitSeconds(0.5)
-//                    .forward(20)
-//                    .splineTo(new Vector2d(40, -60), Math.toRadians(0))
-//                    .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                    .splineTo(new Vector2d(13, -60), Math.toRadians(-90))
+                    .splineToLinearHeading(new Pose2d(54.25, -24.75, Math.toRadians(180)), Math.toRadians(0))
+                    //placing
+                    .waitSeconds(0.5)
+                    .addTemporalMarker(13.5,() -> {
+                        grabber.openServo(0.56);
+                    })
+                    .waitSeconds(3.5)
+                    .forward(3)
+                    .waitSeconds(.5)
+                    //parking
+                    .strafeLeft(33.25)
+                    .waitSeconds(.4)
+                    .back(11.5)
+                    .addDisplacementMarker(() -> {
+                        grabber.openServo(0.683);
+                    })
                     .build();
-        }else if (selection == ThreeRectangleProcessor.Selected.MIDDLE || selection == ThreeRectangleProcessor.Selected.NONE) {
+        } else if (selection == ThreeRectangleProcessor.Selected.MIDDLE || selection == ThreeRectangleProcessor.Selected.NONE) {
             //middle trajectory
             myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(13,-63, Math.toRadians(90)))
-
                     .forward(0.0001)
                     .addDisplacementMarker(() -> {
                         snapper.setPowerSnapper(-1);
@@ -171,39 +146,28 @@ public class BlueAwayBackdrop extends LinearOpMode {
                     .waitSeconds(0.5)
                     .back(19)
                     .waitSeconds(2)
-//            myTrajectory = drive.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
-//                    .forward(0.0001)
-//                    .addDisplacementMarker(() -> {
-//                        snapper.setPowerSnapper(-1);
-//                    })
-//                    .waitSeconds(0.5)
-//                    .addTemporalMarker(2,() -> {
-//                        snapper.setPowerSnapper(0);
-//                    })
-//                    .waitSeconds(0.1)
-//                    .forward(35.4)
-//                    .waitSeconds(0.5)
-//                    .back(19)
-//                    //intaker
-//                    .waitSeconds(0.3)
-//                    .back(27)
-//                    .waitSeconds(0.3)
-//                    .turn(Math.toRadians(-90))
-//                    .waitSeconds(0.3)
-//                    .waitSeconds(10)
-//                    .forward(36)
-//                    .waitSeconds(0.5)
-//                    .splineToSplineHeading(new Pose2d(51, -42, Math.toRadians(180)), Math.toRadians(0))
-//                    .waitSeconds(0.5)
-//                    //servo
-//                    .addDisplacementMarker(() -> {
-//                        grabber.openServo(1);
-//                    })
-//                    .waitSeconds(0.5)
-//                    .forward(20)
-//                    .splineTo(new Vector2d(40, -60), Math.toRadians(0))
-//                    .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                    .addDisplacementMarker(() -> {
+                        intaker.setIntakePower(0);
+                    })
+                    //servo
+                    .splineToLinearHeading(new Pose2d(54, -31, Math.toRadians(180)), Math.toRadians(0))
+                    .waitSeconds(0.5)
+                    .forward(0.01)
+                    .waitSeconds(1.5)
+                    //servo drops yellow pixel
+                    .addTemporalMarker(10, () -> {
+                        grabber.openServo(0.54);
+                    })
+                    .waitSeconds(1.75)
+                    .forward(1.4)
+                    .forward(0.01)
+                    .splineTo(new Vector2d(40, -60), Math.toRadians(0))
+                    .splineTo(new Vector2d(59, -60), Math.toRadians(0))
+                    .addDisplacementMarker( () -> {
+                        grabber.openServo(0.683);
+                    })
                     .build();
+
         }
         waitForStart();
 
@@ -212,4 +176,5 @@ public class BlueAwayBackdrop extends LinearOpMode {
         drive.followTrajectorySequence(myTrajectory);
 
     }
+
 }
