@@ -39,11 +39,11 @@ public class Robot extends LinearOpMode {
 
         while(opModeIsActive()) {
             drive.drive(gamepad1, telemetry);
-            grabber.grab(gamepad1, telemetry);
-            intaker.moveIntake(gamepad2, telemetry);
-            droneShooter.shootingControls(gamepad2, telemetry);
+            //grabber.grab(gamepad1, telemetry);
+            //intaker.moveIntake(gamepad2, telemetry);
+            //droneShooter.shootingControls(gamepad2, telemetry);
             hanger.moveHanger(gamepad2, telemetry);
-            snapper.moveSnapper(gamepad2, telemetry);
+            //snapper.moveSnapper(gamepad2, telemetry);
             telemetry.update();
         }
     }
